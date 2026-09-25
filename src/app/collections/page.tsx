@@ -12,6 +12,8 @@ export const metadata = {
   description: "Browse the curated architectural capsules and seasonal releases from ay2fly.",
 };
 
+export const dynamic = "force-dynamic";
+
 export default async function CollectionsPage() {
   const collections = await db.getCollections();
 
