@@ -11,8 +11,9 @@ if (!SUPABASE_URL || !ANON_KEY || !DATABASE_URL) {
   process.exit(1);
 }
 
+const cleanDbUrl = DATABASE_URL.replace(/[\?&]sslmode=[^&]+/g, "");
 const pool = new Pool({
-  connectionString: DATABASE_URL,
+  connectionString: cleanDbUrl,
   ssl: { rejectUnauthorized: false },
 });
 

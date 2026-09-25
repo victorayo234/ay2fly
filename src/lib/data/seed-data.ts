@@ -1,4 +1,4 @@
-import { Category, Collection, Product, SizeGuide } from "@/types/database";
+import type { Category, Collection, Product, SizeGuide } from "../../types/database";
 
 export const CATEGORIES: Category[] = [
   {

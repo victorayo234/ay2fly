@@ -16,12 +16,13 @@ if (!connectionString || !supabaseUrl || !supabaseServiceKey) {
 const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
 async function main() {
+  const cleanConnectionString = connectionString.replace(/[\?&]sslmode=[^&]+/g, "");
   const client = new Client({
-    connectionString,
+    connectionString: cleanConnectionString,
     ssl: { rejectUnauthorized: false },
   });
 
-  console.log("Connecting to PostgreSQL at:", connectionString.split("@")[1]);
+  console.log("Connecting to PostgreSQL at:", cleanConnectionString.split("@")[1]);
   await client.connect();
   console.log("Connected successfully!");
 
@@ -250,6 +251,22 @@ async function main() {
     CREATE TRIGGER on_auth_user_created
       AFTER INSERT ON auth.users
       FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+    -- Role protection trigger preventing non-admins from changing role
+    CREATE OR REPLACE FUNCTION public.protect_profile_role()
+    RETURNS TRIGGER AS $$
+    BEGIN
+      IF NEW.role IS DISTINCT FROM OLD.role AND NOT public.is_admin() THEN
+        RAISE EXCEPTION 'Non-administrative users cannot modify their account role.';
+      END IF;
+      RETURN NEW;
+    END;
+    $$ LANGUAGE plpgsql SECURITY DEFINER;
+
+    DROP TRIGGER IF EXISTS protect_profile_role_trigger ON public.profiles;
+    CREATE TRIGGER protect_profile_role_trigger
+      BEFORE UPDATE ON public.profiles
+      FOR EACH ROW EXECUTE FUNCTION public.protect_profile_role();
   `);
 
   console.log("3. Enabling Row Level Security (RLS) on all tables...");
