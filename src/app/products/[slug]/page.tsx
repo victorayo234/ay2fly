@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     title: `${product.name} | ay2fly`,
     description: product.description,
     openGraph: {
-      title: `${product.name} — ay2fly Atelier`,
+      title: `${product.name} — ay2fly Streetwear`,
       description: product.description,
       images: [
         {
@@ -51,10 +51,10 @@ export default async function ProductDetailPage({ params }: PageProps) {
   const relatedProducts = await db.getRelatedProducts(product.id, 4);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f6]">
+    <div className="min-h-screen bg-[#fafaf9] text-slate-900 flex flex-col justify-between">
       <Navbar />
 
-      <main className="pt-28 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <main className="pt-28 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 w-full">
         <ProductDetailView
           product={product}
           sizeGuides={product.size_guides || []}

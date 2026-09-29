@@ -3,24 +3,29 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const badgeVariants = cva(
-  "inline-flex items-center gap-1.5 px-2.5 py-0.5 text-[10px] font-display uppercase tracking-widest font-semibold transition-colors rounded-xs border select-none",
+  "inline-flex items-center gap-1.5 px-3 py-1 text-[11px] font-display uppercase tracking-wider font-bold transition-all rounded-full border select-none",
   {
     variants: {
+      default: {
+        true: "bg-slate-100 text-slate-800 border-slate-200",
+      },
       variant: {
         default:
-          "bg-white/10 text-white border-white/20 backdrop-blur-xs",
+          "bg-slate-100 text-slate-800 border-slate-200/80 shadow-xs",
+        vibrant:
+          "bg-orange-500 text-white border-transparent shadow-[0_2px_10px_rgba(255,85,0,0.35)]",
         metallic:
-          "bg-gradient-to-r from-white/20 via-white/10 to-transparent text-white border-white/30 shadow-[0_0_12px_rgba(255,255,255,0.1)]",
+          "bg-gradient-to-r from-orange-500 to-amber-500 text-white border-transparent shadow-[0_2px_10px_rgba(255,85,0,0.3)]",
         new:
-          "bg-white text-black border-white font-bold shadow-[0_0_15px_rgba(255,255,255,0.2)]",
+          "bg-black text-white border-transparent shadow-sm",
         sale:
-          "bg-red-500/20 text-red-300 border-red-500/40",
+          "bg-red-50 text-red-600 border-red-200 font-bold",
         lowStock:
-          "bg-amber-500/15 text-amber-300 border-amber-500/40",
+          "bg-amber-50 text-amber-700 border-amber-200",
         outOfStock:
-          "bg-[#18181d] text-[#71717a] border-[#27272e] line-through",
+          "bg-slate-100 text-slate-400 border-slate-200 line-through",
         outline:
-          "bg-transparent text-[#cbd5e1] border-[#3f3f4c]",
+          "bg-transparent text-slate-700 border-slate-300",
       },
     },
     defaultVariants: {

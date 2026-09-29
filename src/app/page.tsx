@@ -30,7 +30,7 @@ export default async function HomePage() {
   const trendingProducts = allProducts.slice(0, 8);
 
   return (
-    <main className="min-h-screen bg-[#09090b] text-[#f4f4f6]">
+    <main className="min-h-screen bg-[#fafaf9] text-slate-900">
       {/* Reduced-motion aware initial brand reveal */}
       <IntroLoader />
 

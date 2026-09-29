@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight } from "lucide-react";
+import { X, Plus, Minus, Trash2, ShoppingBag, ArrowRight, Sparkles } from "lucide-react";
 import { useUIStore } from "@/store/ui-store";
 import { useCartStore } from "@/store/cart-store";
 import { Button } from "@/components/ui/button";
@@ -51,7 +51,7 @@ export function CartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeCart}
-            className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 transition-opacity"
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 transition-opacity"
             aria-hidden="true"
           />
 
@@ -61,69 +61,75 @@ export function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 280 }}
-            className="fixed top-0 right-0 h-full w-full sm:w-[450px] bg-[#0c0c0f] border-l border-[#272730] z-50 flex flex-col shadow-2xl"
+            className="fixed top-0 right-0 h-full w-full sm:w-[460px] bg-white border-l border-slate-200 z-50 flex flex-col shadow-2xl rounded-l-3xl overflow-hidden"
             role="dialog"
             aria-modal="true"
-            aria-label="Shopping Cart"
+            aria-label="Shopping Bag Preview"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-5 border-b border-[#272730]/70">
+            <div className="flex items-center justify-between p-5 border-b border-slate-100 bg-white">
               <div className="flex items-center gap-2.5">
-                <ShoppingBag className="h-4 w-4 text-white" />
-                <span className="font-display uppercase tracking-widest text-xs font-bold text-white">
-                  BAG ({totalCount()})
+                <div className="h-8 w-8 rounded-full bg-orange-50 flex items-center justify-center text-[#ff5500]">
+                  <ShoppingBag className="h-4 w-4" />
+                </div>
+                <span className="font-display uppercase tracking-wider text-sm font-black text-slate-900">
+                  Your Bag ({totalCount()})
                 </span>
               </div>
               <button
                 onClick={closeCart}
-                className="p-2 text-[#71717a] hover:text-white transition-colors cursor-pointer"
-                aria-label="Close cart"
+                className="p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
+                aria-label="Close bag"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
 
             {/* Free Shipping Progress */}
-            <div className="px-5 py-3 bg-[#111116] border-b border-[#272730]/40">
-              <div className="text-[11px] font-sans text-[#a1a1aa] flex justify-between">
+            <div className="px-5 py-3.5 bg-gradient-to-r from-orange-50/60 via-amber-50/40 to-slate-50 border-b border-slate-100">
+              <div className="text-xs font-sans text-slate-700 flex justify-between font-medium">
                 {remainingForFreeShipping > 0 ? (
                   <span>
-                    Add <strong className="text-white">{formatPrice(remainingForFreeShipping)}</strong> for Complimentary Express Shipping
+                    Add <strong className="text-[#ff5500] font-bold">{formatPrice(remainingForFreeShipping)}</strong> more for Free Express Delivery!
                   </span>
                 ) : (
-                  <span className="text-emerald-400 font-medium">
-                    ✓ You unlocked Complimentary Express Shipping!
+                  <span className="text-emerald-600 font-bold flex items-center gap-1">
+                    <Sparkles className="h-3.5 w-3.5 text-emerald-500" />
+                    You unlocked Complimentary Express Delivery!
                   </span>
                 )}
               </div>
-              <div className="mt-2 h-1 w-full bg-[#272730] rounded-full overflow-hidden">
+              <div className="mt-2 h-1.5 w-full bg-slate-200/80 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-neutral-400 to-white transition-all duration-300"
+                  className="h-full bg-gradient-to-r from-[#ff5500] to-emerald-500 transition-all duration-500 ease-out rounded-full"
                   style={{ width: `${progressToFreeShipping}%` }}
                 />
               </div>
             </div>
 
-            {/* Items List */}
+            {/* Cart Items List */}
             <div className="flex-1 overflow-y-auto p-5 space-y-4">
               {items.length === 0 ? (
-                <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
-                  <div className="h-16 w-16 rounded-full bg-[#18181f] border border-[#272730] flex items-center justify-center text-[#71717a]">
-                    <ShoppingBag className="h-7 w-7 stroke-1" />
+                <div className="h-full flex flex-col items-center justify-center text-center py-16 space-y-4">
+                  <div className="h-16 w-16 rounded-full bg-slate-100 flex items-center justify-center text-slate-400">
+                    <ShoppingBag className="h-8 w-8" />
                   </div>
                   <div>
-                    <h3 className="font-display uppercase tracking-wide text-sm font-semibold text-white">
+                    <h3 className="font-display text-base font-bold text-slate-900 uppercase">
                       Your bag is empty
                     </h3>
-                    <p className="text-xs text-[#71717a] mt-1 max-w-[240px]">
-                      Explore our latest drop of heavyweight oversized streetwear essentials.
+                    <p className="text-xs text-slate-500 mt-1 max-w-xs">
+                      Looks like you haven&apos;t added any streetwear pieces to your bag yet.
                     </p>
                   </div>
-                  <Link href="/shop" onClick={closeCart}>
-                    <Button variant="primary" size="sm" className="mt-2">
-                      Browse Shop
-                    </Button>
-                  </Link>
+                  <Button
+                    variant="primary"
+                    size="md"
+                    onClick={closeCart}
+                    className="mt-2"
+                  >
+                    Explore Fresh Drops
+                  </Button>
                 </div>
               ) : (
                 <AnimatePresence initial={false}>
@@ -131,17 +137,17 @@ export function CartDrawer() {
                     <motion.div
                       key={item.variantId}
                       layout
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0, overflow: "hidden", marginBottom: 0 }}
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, x: -30 }}
                       transition={{ duration: 0.2 }}
-                      className="flex gap-4 p-3 bg-[#111115] border border-[#222228] rounded-xs"
+                      className="flex gap-4 p-3.5 bg-slate-50/70 border border-slate-200/70 rounded-2xl hover:border-slate-300 transition-all shadow-xs"
                     >
                       {/* Thumbnail */}
                       <Link
                         href={`/products/${item.productSlug}`}
                         onClick={closeCart}
-                        className="relative h-24 w-20 bg-[#16161b] rounded-xs overflow-hidden shrink-0 border border-[#272730]"
+                        className="relative h-24 w-20 bg-white rounded-xl overflow-hidden shrink-0 border border-slate-200 block"
                       >
                         <Image
                           src={item.image}
@@ -152,59 +158,52 @@ export function CartDrawer() {
                       </Link>
 
                       {/* Details */}
-                      <div className="flex-1 flex flex-col justify-between">
-                        <div>
-                          <div className="flex justify-between items-start">
+                      <div className="flex-1 flex flex-col justify-between min-w-0">
+                        <div className="flex items-start justify-between gap-2">
+                          <div>
                             <Link
                               href={`/products/${item.productSlug}`}
                               onClick={closeCart}
-                              className="font-display text-xs font-semibold uppercase text-white hover:text-neutral-300 transition-colors line-clamp-1"
+                              className="font-display text-xs font-bold text-slate-900 hover:text-[#ff5500] transition-colors line-clamp-1 uppercase"
                             >
                               {item.productName}
                             </Link>
-                            <button
-                              onClick={() => removeItem(item.variantId)}
-                              className="text-[#71717a] hover:text-red-400 transition-colors p-1"
-                              aria-label="Remove item"
-                            >
-                              <Trash2 className="h-3.5 w-3.5" />
-                            </button>
+                            <div className="text-[11px] text-slate-500 mt-0.5">
+                              {item.color} · Size <span className="font-bold text-slate-700">{item.size}</span>
+                            </div>
                           </div>
-                          <div className="text-[11px] text-[#8e8e99] mt-0.5 font-mono">
-                            {item.color} · Size {item.size}
-                          </div>
-                          <div className="text-xs font-bold text-white mt-1">
-                            {formatPrice(item.price)}
-                          </div>
+                          <button
+                            onClick={() => removeItem(item.variantId)}
+                            className="p-1 text-slate-400 hover:text-red-500 transition-colors cursor-pointer"
+                            aria-label={`Remove ${item.productName}`}
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
                         </div>
 
-                        {/* Quantity Controls */}
-                        <div className="flex items-center justify-between mt-3 pt-2 border-t border-[#1e1e24]">
-                          <div className="flex items-center border border-[#272730] rounded-xs bg-[#09090b]">
+                        {/* Quantity controls & Price */}
+                        <div className="flex items-center justify-between pt-2">
+                          <div className="flex items-center border border-slate-200 bg-white rounded-xl overflow-hidden shadow-xs">
                             <button
-                              onClick={() =>
-                                updateQuantity(item.variantId, item.quantity - 1)
-                              }
-                              className="p-1 px-2 text-[#71717a] hover:text-white disabled:opacity-30 cursor-pointer"
+                              onClick={() => updateQuantity(item.variantId, item.quantity - 1)}
+                              className="p-1.5 px-2.5 text-slate-500 hover:text-slate-900 transition-colors cursor-pointer"
                               aria-label="Decrease quantity"
                             >
                               <Minus className="h-3 w-3" />
                             </button>
-                            <span className="px-2 text-xs font-mono font-medium text-white">
+                            <span className="px-2 text-xs font-mono font-bold text-slate-800">
                               {item.quantity}
                             </span>
                             <button
-                              onClick={() =>
-                                updateQuantity(item.variantId, item.quantity + 1)
-                              }
+                              onClick={() => updateQuantity(item.variantId, item.quantity + 1)}
                               disabled={item.quantity >= item.stock}
-                              className="p-1 px-2 text-[#71717a] hover:text-white disabled:opacity-30 cursor-pointer"
+                              className="p-1.5 px-2.5 text-slate-500 hover:text-slate-900 disabled:opacity-30 transition-colors cursor-pointer"
                               aria-label="Increase quantity"
                             >
                               <Plus className="h-3 w-3" />
                             </button>
                           </div>
-                          <span className="text-xs font-mono font-semibold text-neutral-300">
+                          <span className="text-xs font-mono font-bold text-slate-900">
                             {formatPrice(item.price * item.quantity)}
                           </span>
                         </div>
@@ -215,48 +214,47 @@ export function CartDrawer() {
               )}
             </div>
 
-            {/* Footer */}
+            {/* Footer with Dual Flow: View Cart & Proceed to Checkout */}
             {items.length > 0 && (
-              <div className="p-5 border-t border-[#272730] bg-[#0c0c0f] space-y-4">
+              <div className="p-5 border-t border-slate-200 bg-white space-y-4 shadow-[0_-10px_25px_-5px_rgba(15,23,42,0.05)]">
                 <div className="space-y-1.5 text-xs">
-                  <div className="flex justify-between text-[#8e8e99]">
+                  <div className="flex justify-between text-slate-500 font-medium">
                     <span>Subtotal</span>
-                    <span className="font-mono text-white">
+                    <span className="font-mono text-slate-900 font-bold">
                       {formatPrice(currentSubtotal)}
                     </span>
                   </div>
-                  <div className="flex justify-between text-[#8e8e99]">
+                  <div className="flex justify-between text-slate-500 font-medium">
                     <span>Shipping</span>
-                    <span className="font-mono text-white">
+                    <span className="font-mono text-slate-900 font-bold">
                       {currentSubtotal >= freeShippingThreshold
-                        ? "FREE"
+                        ? "FREE EXPRESS"
                         : "Calculated at checkout"}
                     </span>
                   </div>
-                  <div className="flex justify-between text-sm font-semibold pt-2 border-t border-[#272730] text-white">
+                  <div className="flex justify-between text-sm font-bold pt-2.5 border-t border-slate-100 text-slate-900">
                     <span className="font-display uppercase tracking-wider">
                       Estimated Total
                     </span>
-                    <span className="font-mono text-base">
+                    <span className="font-mono text-base font-black text-slate-900">
                       {formatPrice(currentSubtotal)}
                     </span>
                   </div>
                 </div>
 
-                <div className="space-y-2">
-                  <Link href="/checkout" onClick={closeCart} className="block">
-                    <Button variant="primary" size="lg" className="w-full">
-                      Proceed to Checkout <ArrowRight className="h-4 w-4" />
+                {/* Dual Navigation Buttons for Workflow Reference */}
+                <div className="grid grid-cols-2 gap-2.5 pt-1">
+                  <Link href="/cart" onClick={closeCart} className="block">
+                    <Button variant="secondary" size="md" className="w-full">
+                      View Full Bag
                     </Button>
                   </Link>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="w-full text-xs text-[#71717a] hover:text-white"
-                    onClick={closeCart}
-                  >
-                    Continue Shopping
-                  </Button>
+
+                  <Link href="/checkout" onClick={closeCart} className="block">
+                    <Button variant="primary" size="md" className="w-full">
+                      Checkout <ArrowRight className="h-4 w-4" />
+                    </Button>
+                  </Link>
                 </div>
               </div>
             )}

@@ -1,60 +1,59 @@
 "use client";
 
 import React, { useState } from "react";
-import { X, Ruler, Check } from "lucide-react";
+import { X, Ruler, Sparkles, Check } from "lucide-react";
 import { SizeGuide } from "@/types/database";
 
 interface SizeGuideModalProps {
   isOpen: boolean;
   onClose: () => void;
   sizeGuides: SizeGuide[];
-  categoryName?: string;
+  categoryName: string;
 }
 
 export function SizeGuideModal({
   isOpen,
   onClose,
   sizeGuides,
-  categoryName = "Garment",
+  categoryName,
 }: SizeGuideModalProps) {
   const [unit, setUnit] = useState<"cm" | "in">("cm");
 
   if (!isOpen) return null;
 
-  const convert = (val?: number) => {
-    if (val === undefined) return "—";
-    if (unit === "cm") return `${val} cm`;
-    return `${(val / 2.54).toFixed(1)} in`;
+  const toInches = (val?: number | null) => {
+    if (!val) return "-";
+    return (val / 2.54).toFixed(1);
   };
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in duration-200"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-md animate-in fade-in duration-200"
       onClick={onClose}
     >
       <div
-        className="w-full max-w-2xl bg-[#0e0e12] border border-[#272732] rounded-xs shadow-2xl p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto"
+        className="w-full max-w-2xl bg-white border border-slate-200 rounded-3xl shadow-2xl p-6 sm:p-8 space-y-6 max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
         aria-label="Size Guide"
       >
         {/* Header */}
-        <div className="flex items-start justify-between border-b border-[#202028] pb-4">
+        <div className="flex items-start justify-between border-b border-slate-100 pb-4">
           <div>
-            <div className="flex items-center gap-2 text-white">
-              <Ruler className="h-4 w-4" />
-              <h3 className="font-display text-lg font-bold uppercase tracking-wider">
+            <div className="flex items-center gap-2 text-slate-900">
+              <Ruler className="h-4 w-4 text-[#ff5500]" />
+              <h3 className="font-display text-lg font-black uppercase tracking-tight">
                 {categoryName} Size Guide
               </h3>
             </div>
-            <p className="text-xs text-[#8e8e99] mt-1 font-mono">
-              Live atelier garment measurements · Data-driven from product specs
+            <p className="text-xs text-slate-500 mt-1">
+              Exact garment dimensions. Measured flat across the garment.
             </p>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-[#71717a] hover:text-white transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition-colors cursor-pointer"
             aria-label="Close size guide"
           >
             <X className="h-5 w-5" />
@@ -62,102 +61,114 @@ export function SizeGuideModal({
         </div>
 
         {/* Unit Toggle */}
-        <div className="flex items-center justify-between">
-          <span className="text-xs text-[#a1a1aa] font-sans">
-            Measurement standard:
+        <div className="flex items-center justify-between text-xs">
+          <span className="font-mono text-slate-400 uppercase font-bold">
+            Measurement Standard
           </span>
-          <div className="flex border border-[#272732] rounded-xs bg-[#141418] p-0.5">
+          <div className="flex border border-slate-200 rounded-xl p-0.5 bg-slate-50">
             <button
               onClick={() => setUnit("cm")}
-              className={`px-3 py-1 text-xs font-mono font-medium rounded-xs transition-colors ${
+              className={`px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all cursor-pointer ${
                 unit === "cm"
-                  ? "bg-white text-black font-bold"
-                  : "text-[#8e8e99] hover:text-white"
+                  ? "bg-[#ff5500] text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              Centimeters (CM)
+              Centimeters (cm)
             </button>
             <button
               onClick={() => setUnit("in")}
-              className={`px-3 py-1 text-xs font-mono font-medium rounded-xs transition-colors ${
+              className={`px-3 py-1 rounded-lg font-mono text-xs font-bold transition-all cursor-pointer ${
                 unit === "in"
-                  ? "bg-white text-black font-bold"
-                  : "text-[#8e8e99] hover:text-white"
+                  ? "bg-[#ff5500] text-white shadow-xs"
+                  : "text-slate-600 hover:text-slate-900"
               }`}
             >
-              Inches (IN)
+              Inches (in)
             </button>
           </div>
         </div>
 
-        {/* Measurement Table */}
-        <div className="overflow-x-auto border border-[#202028] rounded-xs">
-          <table className="w-full text-left text-xs font-sans">
-            <thead className="bg-[#141418] border-b border-[#202028] text-white font-display uppercase tracking-wider">
+        {/* Measurements Table */}
+        <div className="overflow-x-auto rounded-2xl border border-slate-200">
+          <table className="w-full text-xs text-left">
+            <thead className="bg-slate-50 border-b border-slate-200 font-mono text-[11px] uppercase font-bold text-slate-500">
               <tr>
-                <th className="py-3 px-4">Size</th>
-                {sizeGuides.some((g) => g.chest) && (
-                  <th className="py-3 px-4">Chest</th>
+                <th className="p-3 pl-4">Size</th>
+                <th className="p-3">Target Height</th>
+                {sizeGuides.some((s) => s.chest) && (
+                  <th className="p-3">Chest Width</th>
                 )}
-                {sizeGuides.some((g) => g.waist) && (
-                  <th className="py-3 px-4">Waist</th>
+                {sizeGuides.some((s) => s.waist) && (
+                  <th className="p-3">Waist</th>
                 )}
-                {sizeGuides.some((g) => g.hip) && (
-                  <th className="py-3 px-4">Hip</th>
-                )}
-                {sizeGuides.some((g) => g.garment_length) && (
-                  <th className="py-3 px-4">Length</th>
-                )}
-                {sizeGuides.some((g) => g.min_height) && (
-                  <th className="py-3 px-4">Recommended Height</th>
+                {sizeGuides.some((s) => s.hip) && <th className="p-3">Hip</th>}
+                {sizeGuides.some((s) => s.garment_length) && (
+                  <th className="p-3 pr-4">Garment Length</th>
                 )}
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#202028] font-mono">
-              {sizeGuides.map((guide) => (
-                <tr key={guide.id} className="hover:bg-white/5 transition-colors">
-                  <td className="py-3 px-4 font-bold text-white font-display">
-                    {guide.size}
+            <tbody className="divide-y divide-slate-100 font-mono text-slate-800">
+              {sizeGuides.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="p-6 text-center text-slate-400">
+                    Standard unisex sizing applies. Choose your regular size.
                   </td>
-                  {guide.chest !== undefined && (
-                    <td className="py-3 px-4 text-[#cbd5e1]">
-                      {convert(guide.chest)}
-                    </td>
-                  )}
-                  {guide.waist !== undefined && (
-                    <td className="py-3 px-4 text-[#cbd5e1]">
-                      {convert(guide.waist)}
-                    </td>
-                  )}
-                  {guide.hip !== undefined && (
-                    <td className="py-3 px-4 text-[#cbd5e1]">
-                      {convert(guide.hip)}
-                    </td>
-                  )}
-                  {guide.garment_length !== undefined && (
-                    <td className="py-3 px-4 text-[#cbd5e1]">
-                      {convert(guide.garment_length)}
-                    </td>
-                  )}
-                  {guide.min_height !== undefined && (
-                    <td className="py-3 px-4 text-[#a1a1aa]">
-                      {convert(guide.min_height)} – {convert(guide.max_height)}
-                    </td>
-                  )}
                 </tr>
-              ))}
+              ) : (
+                sizeGuides.map((sg) => (
+                  <tr
+                    key={sg.id}
+                    className="hover:bg-slate-50/70 transition-colors"
+                  >
+                    <td className="p-3 pl-4 font-bold text-slate-900 font-display">
+                      {sg.size}
+                    </td>
+                    <td className="p-3 text-slate-600">
+                      {sg.min_height && sg.max_height
+                        ? `${sg.min_height}–${sg.max_height} cm`
+                        : "All heights"}
+                    </td>
+                    {sizeGuides.some((s) => s.chest) && (
+                      <td className="p-3">
+                        {unit === "cm"
+                          ? `${sg.chest} cm`
+                          : `${toInches(sg.chest)} in`}
+                      </td>
+                    )}
+                    {sizeGuides.some((s) => s.waist) && (
+                      <td className="p-3">
+                        {unit === "cm"
+                          ? `${sg.waist} cm`
+                          : `${toInches(sg.waist)} in`}
+                      </td>
+                    )}
+                    {sizeGuides.some((s) => s.hip) && (
+                      <td className="p-3">
+                        {unit === "cm"
+                          ? `${sg.hip} cm`
+                          : `${toInches(sg.hip)} in`}
+                      </td>
+                    )}
+                    {sizeGuides.some((s) => s.garment_length) && (
+                      <td className="p-3 pr-4">
+                        {unit === "cm"
+                          ? `${sg.garment_length} cm`
+                          : `${toInches(sg.garment_length)} in`}
+                      </td>
+                    )}
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
 
-        {/* Measuring Guide Instructions */}
-        <div className="p-4 bg-[#141419] border border-[#22222a] rounded-xs space-y-2 text-xs text-[#a1a1aa]">
-          <h4 className="font-display uppercase tracking-wider text-white font-semibold flex items-center gap-1.5">
-            <Check className="h-3.5 w-3.5 text-emerald-400" />
-            How We Measure Our Garments
-          </h4>
-          <p className="leading-relaxed">
-            All garments are laid flat on a smooth surface. Chest is measured pit-to-pit and multiplied by two. Length is measured from highest shoulder point straight to bottom hem.
+        {/* Measuring Tip */}
+        <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-1 text-xs text-slate-600 leading-relaxed">
+          <div className="font-bold text-slate-900">How to measure:</div>
+          <p>
+            For boxy and oversized hoodies, we recommend ordering your true size to achieve the intended relaxed drape. For a closer tailored fit, size down one size.
           </p>
         </div>
       </div>

@@ -90,27 +90,27 @@ export default function AdminDashboardPage() {
   // Strict role check: enforce real admin authentication
   if (!user || user.role !== "admin") {
     return (
-      <div className="min-h-screen bg-[#09090b] text-[#f4f4f6]">
+      <div className="min-h-screen bg-[#fafaf9] text-slate-900 flex flex-col justify-between">
         <Navbar />
-        <main className="pt-36 pb-24 max-w-md mx-auto px-4 text-center space-y-6">
-          <div className="p-8 bg-[#0e0e12] border border-[#272730] rounded-xs space-y-5 shadow-2xl lustre-card">
-            <div className="h-16 w-16 mx-auto rounded-full bg-red-950/40 border border-red-800/60 flex items-center justify-center text-red-400">
+        <main className="pt-36 pb-24 max-w-md mx-auto px-4 text-center space-y-6 w-full">
+          <div className="p-8 bg-white border border-slate-200/80 rounded-3xl space-y-5 shadow-xl">
+            <div className="h-16 w-16 mx-auto rounded-full bg-red-50 border border-red-200 flex items-center justify-center text-red-500">
               <ShieldAlert className="h-8 w-8" />
             </div>
             <div>
-              <h2 className="font-display text-xl font-bold uppercase text-white tracking-wide">
-                Admin Authentication Required
+              <h2 className="font-display text-xl font-bold uppercase text-slate-900">
+                Admin Access Required
               </h2>
-              <p className="text-xs text-[#8e8e99] leading-relaxed mt-1">
+              <p className="text-xs sm:text-sm text-slate-600 leading-relaxed mt-1">
                 {!user
-                  ? "You must be signed in with an authorized administrative account to access the dashboard."
+                  ? "You must be signed in with an authorized admin account to access the dashboard."
                   : "Your current account does not have administrator privileges. Please sign in with an admin account."}
               </p>
             </div>
 
             <div className="flex flex-col gap-2 pt-2">
               <Link href="/login?redirect=/admin" className="w-full">
-                <Button variant="primary" size="lg" className="w-full">
+                <Button variant="accent" size="lg" className="w-full shadow-lg shadow-orange-500/20 active:scale-95">
                   Sign In with Admin Account
                 </Button>
               </Link>
@@ -209,7 +209,7 @@ export default function AdminDashboardPage() {
       toast({
         title: "STOCK UPDATED",
         description: `${editingVariant.sku} updated to ${newStockVal} units.`,
-        variant: "metallic",
+        variant: "success",
       });
     } catch (err) {
       toast({
@@ -230,7 +230,7 @@ export default function AdminDashboardPage() {
     const newProdData = {
       name: newProdName,
       slug,
-      description: newProdDesc || "Engineered heavyweight streetwear garment.",
+      description: newProdDesc || "Heavyweight premium streetwear piece.",
       category_id: newProdCategory,
       collection_id: "col-drop-01",
       price: newProdPrice,
@@ -252,19 +252,25 @@ export default function AdminDashboardPage() {
         {
           id: `var-${Date.now()}-1`,
           product_id: "",
-          color: "Vintage Black",
-          color_hex: "#111114",
-          size: "M",
-          sku: `AY-${slug.substring(0, 3).toUpperCase()}-BLK-M`,
+          sku: `${slug.toUpperCase().slice(0, 6)}-BLK-S`,
+          size: "S",
+          color: "Pitch Black",
           stock: 12,
         },
         {
           id: `var-${Date.now()}-2`,
           product_id: "",
-          color: "Vintage Black",
-          color_hex: "#111114",
+          sku: `${slug.toUpperCase().slice(0, 6)}-BLK-M`,
+          size: "M",
+          color: "Pitch Black",
+          stock: 15,
+        },
+        {
+          id: `var-${Date.now()}-3`,
+          product_id: "",
+          sku: `${slug.toUpperCase().slice(0, 6)}-BLK-L`,
           size: "L",
-          sku: `AY-${slug.substring(0, 3).toUpperCase()}-BLK-L`,
+          color: "Pitch Black",
           stock: 8,
         },
       ],
@@ -278,20 +284,18 @@ export default function AdminDashboardPage() {
       });
 
       if (res.ok) {
-        const { product } = await res.json();
-        setProducts([product, ...products]);
+        const created = await res.json();
+        setProducts((prev) => [created, ...prev]);
         toast({
-          title: "PRODUCT CREATED",
-          description: `${product.name} deployed to active archives.`,
+          title: "GARMENT CREATED",
+          description: `${newProdName} added to the live catalog.`,
           variant: "success",
         });
-      } else {
-        throw new Error("Creation failed");
       }
-    } catch (err) {
+    } catch (e) {
       toast({
         title: "CREATION ERROR",
-        description: "Failed to persist new product to database.",
+        description: "Failed to persist new garment to database.",
         variant: "error",
       });
     } finally {
@@ -302,14 +306,14 @@ export default function AdminDashboardPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070709] text-[#f4f4f6]">
+    <div className="min-h-screen bg-[#fafaf9] text-slate-900 flex flex-col justify-between">
       <Navbar />
 
-      <main className="pt-28 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <main className="pt-28 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 w-full">
         {/* Header Bar */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-[#202028] pb-6 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-6 gap-4">
           <div className="flex items-center gap-4">
-            <div className="relative h-11 w-11 bg-[#141418] border border-white/20 p-1.5 rounded-xs flex items-center justify-center">
+            <div className="relative h-12 w-12 bg-white border border-slate-200 p-2 rounded-2xl flex items-center justify-center shadow-sm">
               <Image
                 src="/images/logo.png"
                 alt="ay2fly"
@@ -320,12 +324,12 @@ export default function AdminDashboardPage() {
             </div>
             <div>
               <div className="flex items-center gap-2.5">
-                <h1 className="font-display text-2xl sm:text-3xl font-black uppercase tracking-tight text-white">
-                  Atelier Control Center
+                <h1 className="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-slate-900">
+                  Store Admin
                 </h1>
-                <Badge variant="new">SERVER VERIFIED</Badge>
+                <Badge variant="accent">LIVE DATABASE</Badge>
               </div>
-              <p className="text-xs text-[#8e8e99] font-mono mt-0.5">
+              <p className="text-xs text-slate-500 font-mono mt-0.5">
                 Logged in as {user.full_name} ({user.email}) · Role: {user.role}
               </p>
             </div>
@@ -336,16 +340,16 @@ export default function AdminDashboardPage() {
               variant="outline"
               size="sm"
               onClick={fetchData}
-              className="gap-1.5"
+              className="gap-1.5 text-xs"
             >
               <RefreshCw className="h-3.5 w-3.5" />
               Sync DB
             </Button>
             <Button
-              variant="primary"
+              variant="accent"
               size="sm"
               onClick={() => setIsCreateProductOpen(true)}
-              className="gap-1.5"
+              className="gap-1.5 shadow-md shadow-orange-500/20 active:scale-95 text-xs"
             >
               <Plus className="h-4 w-4" />
               New Garment
@@ -354,13 +358,13 @@ export default function AdminDashboardPage() {
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-2 border-b border-[#202028] overflow-x-auto pb-2 scrollbar-none">
+        <div className="flex items-center gap-2 border-b border-slate-200 overflow-x-auto pb-2 scrollbar-none">
           {[
             { id: "overview", label: "Overview", icon: LayoutDashboard },
             { id: "products", label: `Products (${products.length})`, icon: ShoppingBag },
             { id: "orders", label: `Orders (${orders.length})`, icon: Package },
             { id: "inventory", label: `Inventory & Alerts (${lowStockCount + outOfStockCount})`, icon: AlertTriangle },
-            { id: "customers", label: "Customers (2)", icon: Users },
+            { id: "customers", label: "Customers", icon: Users },
           ].map((tab) => {
             const Icon = tab.icon;
             const active = activeTab === tab.id;
@@ -368,10 +372,10 @@ export default function AdminDashboardPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`px-4 py-2 text-xs font-display uppercase tracking-wider rounded-xs transition-colors flex items-center gap-2 cursor-pointer ${
+                className={`px-4 py-2 text-xs font-display uppercase tracking-wider rounded-xl transition-all flex items-center gap-2 cursor-pointer ${
                   active
-                    ? "bg-white text-black font-bold shadow-md"
-                    : "text-[#8e8e99] hover:text-white hover:bg-white/5"
+                    ? "bg-slate-900 text-white font-bold shadow-sm"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                 }`}
               >
                 <Icon className="h-3.5 w-3.5" />
@@ -386,69 +390,69 @@ export default function AdminDashboardPage() {
           <div className="space-y-8">
             {/* 4 Stat Cards */}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="p-6 bg-[#0e0e12] border border-[#202028] rounded-xs space-y-2">
-                <div className="flex items-center justify-between text-[#8e8e99] text-xs font-mono uppercase">
+              <div className="p-6 bg-white border border-slate-200/80 rounded-3xl space-y-2 shadow-sm">
+                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase">
                   <span>Gross Sales</span>
-                  <DollarSign className="h-4 w-4 text-emerald-400" />
+                  <DollarSign className="h-4 w-4 text-emerald-500" />
                 </div>
-                <div className="text-3xl font-display font-bold text-white">
+                <div className="text-3xl font-display font-extrabold text-slate-900">
                   {formatPrice(totalRevenue)}
                 </div>
-                <div className="text-[11px] text-emerald-400 flex items-center gap-1 font-mono">
+                <div className="text-[11px] text-emerald-600 flex items-center gap-1 font-medium">
                   <TrendingUp className="h-3 w-3" />
                   +18.4% vs last drop cycle
                 </div>
               </div>
 
-              <div className="p-6 bg-[#0e0e12] border border-[#202028] rounded-xs space-y-2">
-                <div className="flex items-center justify-between text-[#8e8e99] text-xs font-mono uppercase">
+              <div className="p-6 bg-white border border-slate-200/80 rounded-3xl space-y-2 shadow-sm">
+                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase">
                   <span>Total Orders</span>
-                  <Package className="h-4 w-4 text-neutral-400" />
+                  <Package className="h-4 w-4 text-slate-400" />
                 </div>
-                <div className="text-3xl font-display font-bold text-white">
+                <div className="text-3xl font-display font-extrabold text-slate-900">
                   {orders.length}
                 </div>
-                <div className="text-[11px] text-[#8e8e99] font-mono">
+                <div className="text-[11px] text-slate-500 font-medium">
                   {totalItemsSold} pieces ordered
                 </div>
               </div>
 
-              <div className="p-6 bg-[#0e0e12] border border-[#202028] rounded-xs space-y-2">
-                <div className="flex items-center justify-between text-[#8e8e99] text-xs font-mono uppercase">
+              <div className="p-6 bg-white border border-slate-200/80 rounded-3xl space-y-2 shadow-sm">
+                <div className="flex items-center justify-between text-slate-500 text-xs font-semibold uppercase">
                   <span>Active Catalog</span>
-                  <ShoppingBag className="h-4 w-4 text-neutral-400" />
+                  <ShoppingBag className="h-4 w-4 text-slate-400" />
                 </div>
-                <div className="text-3xl font-display font-bold text-white">
+                <div className="text-3xl font-display font-extrabold text-slate-900">
                   {products.length}
                 </div>
-                <div className="text-[11px] text-[#8e8e99] font-mono">
+                <div className="text-[11px] text-slate-500 font-medium">
                   {allVariants.length} total SKUs active
                 </div>
               </div>
 
-              <div className="p-6 bg-[#0e0e12] border border-amber-900/40 rounded-xs space-y-2">
-                <div className="flex items-center justify-between text-amber-400 text-xs font-mono uppercase">
+              <div className="p-6 bg-white border border-amber-200 rounded-3xl space-y-2 shadow-sm">
+                <div className="flex items-center justify-between text-amber-700 text-xs font-semibold uppercase">
                   <span>Inventory Alerts</span>
-                  <AlertTriangle className="h-4 w-4" />
+                  <AlertTriangle className="h-4 w-4 text-amber-500" />
                 </div>
-                <div className="text-3xl font-display font-bold text-amber-300">
+                <div className="text-3xl font-display font-extrabold text-amber-600">
                   {lowStockCount + outOfStockCount}
                 </div>
-                <div className="text-[11px] text-amber-400/80 font-mono">
+                <div className="text-[11px] text-amber-700 font-medium">
                   {lowStockCount} low stock · {outOfStockCount} sold out
                 </div>
               </div>
             </div>
 
             {/* Recent Orders Overview */}
-            <div className="p-6 bg-[#0e0e12] border border-[#202028] rounded-xs space-y-4">
-              <div className="flex items-center justify-between border-b border-[#202028] pb-3">
-                <h3 className="font-display text-sm font-bold uppercase text-white">
-                  Recent Atelier Dispatches
+            <div className="p-6 sm:p-8 bg-white border border-slate-200/80 rounded-3xl space-y-4 shadow-sm">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 className="font-display text-sm font-bold uppercase text-slate-900">
+                  Recent Customer Orders
                 </h3>
                 <button
                   onClick={() => setActiveTab("orders")}
-                  className="text-xs text-[#a1a1aa] hover:text-white font-mono flex items-center gap-1 cursor-pointer"
+                  className="text-xs text-[#ff5500] hover:underline font-semibold flex items-center gap-1 cursor-pointer"
                 >
                   View All Orders <ArrowRight className="h-3 w-3" />
                 </button>
@@ -456,7 +460,7 @@ export default function AdminDashboardPage() {
 
               <div className="overflow-x-auto">
                 <table className="w-full text-left text-xs">
-                  <thead className="bg-[#141418] text-[#8e8e99] font-mono uppercase">
+                  <thead className="bg-slate-50 text-slate-500 font-medium uppercase border-b border-slate-200">
                     <tr>
                       <th className="py-2.5 px-3">Order ID</th>
                       <th className="py-2.5 px-3">Customer</th>
@@ -465,28 +469,28 @@ export default function AdminDashboardPage() {
                       <th className="py-2.5 px-3">Status</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-[#1e1e24] font-mono">
+                  <tbody className="divide-y divide-slate-100 font-mono">
                     {orders.slice(0, 5).map((ord) => (
-                      <tr key={ord.id} className="hover:bg-white/5">
-                        <td className="py-3 px-3 font-bold text-white">
+                      <tr key={ord.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="py-3 px-3 font-bold text-slate-900">
                           #{ord.order_number}
                         </td>
-                        <td className="py-3 px-3 text-[#d1d5db]">
+                        <td className="py-3 px-3 text-slate-700 font-sans">
                           {ord.shipping_address.name}
                         </td>
-                        <td className="py-3 px-3 text-[#8e8e99]">
+                        <td className="py-3 px-3 text-slate-500 font-sans">
                           {ord.items?.length || 0} piece(s)
                         </td>
-                        <td className="py-3 px-3 font-bold text-white">
+                        <td className="py-3 px-3 font-bold text-slate-900">
                           {formatPrice(ord.total)}
                         </td>
                         <td className="py-3 px-3">
                           <Badge
                             variant={
                               ord.status === "delivered"
-                                ? "default"
+                                ? "emerald"
                                 : ord.status === "shipped"
-                                ? "metallic"
+                                ? "accent"
                                 : "outline"
                             }
                           >
@@ -515,17 +519,17 @@ export default function AdminDashboardPage() {
                   className="h-10 text-xs"
                 />
               </div>
-              <div className="text-xs font-mono text-[#8e8e99]">
+              <div className="text-xs text-slate-500 font-medium">
                 Showing {products.length} garments in database
               </div>
             </div>
 
-            <div className="overflow-x-auto border border-[#202028] rounded-xs bg-[#0e0e12]">
+            <div className="overflow-x-auto border border-slate-200/80 rounded-2xl bg-white shadow-sm">
               <table className="w-full text-left text-xs font-sans">
-                <thead className="bg-[#141418] border-b border-[#202028] text-[#8e8e99] font-display uppercase tracking-wider">
+                <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-display uppercase tracking-wider">
                   <tr>
                     <th className="py-3 px-4">Garment</th>
-                    <th className="py-3 px-4">Silhouette</th>
+                    <th className="py-3 px-4">Cut</th>
                     <th className="py-3 px-4">Price</th>
                     <th className="py-3 px-4">Variants</th>
                     <th className="py-3 px-4">Total Stock</th>
@@ -533,7 +537,7 @@ export default function AdminDashboardPage() {
                     <th className="py-3 px-4 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1e1e24] font-mono">
+                <tbody className="divide-y divide-slate-100 font-mono">
                   {products
                     .filter((p) =>
                       p.name.toLowerCase().includes(productSearch.toLowerCase())
@@ -542,10 +546,10 @@ export default function AdminDashboardPage() {
                       const totalStock =
                         p.variants?.reduce((sum, v) => sum + v.stock, 0) ?? 0;
                       return (
-                        <tr key={p.id} className="hover:bg-white/5 transition-colors">
+                        <tr key={p.id} className="hover:bg-slate-50 transition-colors">
                           <td className="py-3 px-4">
                             <div className="flex items-center gap-3">
-                              <div className="relative h-12 w-10 bg-[#16161c] rounded-xs overflow-hidden shrink-0 border border-[#272730]">
+                              <div className="relative h-12 w-10 bg-slate-100 rounded-xl overflow-hidden shrink-0 border border-slate-200">
                                 <Image
                                   src={
                                     p.images?.[0]?.image_url ||
@@ -559,46 +563,46 @@ export default function AdminDashboardPage() {
                               <div>
                                 <Link
                                   href={`/products/${p.slug}`}
-                                  className="font-display uppercase font-bold text-white hover:underline block"
+                                  className="font-display uppercase font-bold text-slate-900 hover:text-[#ff5500] hover:underline block"
                                 >
                                   {p.name}
                                 </Link>
-                                <span className="text-[11px] text-[#71717a] font-sans">
+                                <span className="text-[11px] text-slate-500 font-sans">
                                   {p.material}
                                 </span>
                               </div>
                             </div>
                           </td>
-                          <td className="py-3 px-4 uppercase text-[#cbd5e1]">
+                          <td className="py-3 px-4 uppercase text-slate-700 font-sans">
                             {p.fit}
                           </td>
-                          <td className="py-3 px-4 font-bold text-white">
+                          <td className="py-3 px-4 font-bold text-slate-900">
                             {formatPrice(p.sale_price ?? p.price)}
                           </td>
-                          <td className="py-3 px-4 text-[#8e8e99]">
+                          <td className="py-3 px-4 text-slate-500 font-sans">
                             {p.variants?.length || 0} variants
                           </td>
                           <td className="py-3 px-4">
                             <span
                               className={
                                 totalStock === 0
-                                  ? "text-red-400 font-bold"
+                                  ? "text-red-500 font-bold"
                                   : totalStock <= 5
-                                  ? "text-amber-400 font-bold"
-                                  : "text-emerald-400"
+                                  ? "text-amber-600 font-bold"
+                                  : "text-emerald-600 font-bold"
                               }
                             >
                               {totalStock} units
                             </span>
                           </td>
                           <td className="py-3 px-4">
-                            <Badge variant={p.status === "active" ? "default" : "outOfStock"}>
+                            <Badge variant={p.status === "active" ? "emerald" : "outOfStock"}>
                               {p.status}
                             </Badge>
                           </td>
                           <td className="py-3 px-4 text-right">
                             <Link href={`/products/${p.slug}`} target="_blank">
-                              <button className="p-1.5 text-[#71717a] hover:text-white transition-colors cursor-pointer" title="View live PDP">
+                              <button className="p-1.5 text-slate-400 hover:text-slate-900 transition-colors cursor-pointer" title="View product page">
                                 <ArrowUpRight className="h-4 w-4" />
                               </button>
                             </Link>
@@ -625,24 +629,24 @@ export default function AdminDashboardPage() {
                   className="h-10 text-xs"
                 />
               </div>
-              <div className="text-xs font-mono text-[#8e8e99]">
-                Live database fulfillment controls
+              <div className="text-xs text-slate-500 font-medium">
+                Live database order management
               </div>
             </div>
 
-            <div className="overflow-x-auto border border-[#202028] rounded-xs bg-[#0e0e12]">
+            <div className="overflow-x-auto border border-slate-200/80 rounded-2xl bg-white shadow-sm">
               <table className="w-full text-left text-xs font-sans">
-                <thead className="bg-[#141418] border-b border-[#202028] text-[#8e8e99] font-display uppercase tracking-wider">
+                <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-display uppercase tracking-wider">
                   <tr>
                     <th className="py-3 px-4">Order Number</th>
                     <th className="py-3 px-4">Date</th>
                     <th className="py-3 px-4">Customer & Address</th>
                     <th className="py-3 px-4">Items Summary</th>
-                    <th className="py-3 px-4">Captured Total</th>
-                    <th className="py-3 px-4">Live Status Control</th>
+                    <th className="py-3 px-4">Total</th>
+                    <th className="py-3 px-4">Status Control</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1e1e24] font-mono">
+                <tbody className="divide-y divide-slate-100 font-mono">
                   {orders
                     .filter(
                       (o) =>
@@ -650,29 +654,29 @@ export default function AdminDashboardPage() {
                         o.shipping_address.name.toLowerCase().includes(orderSearch.toLowerCase())
                     )
                     .map((o) => (
-                      <tr key={o.id} className="hover:bg-white/5 transition-colors">
-                        <td className="py-3.5 px-4 font-bold text-white">
+                      <tr key={o.id} className="hover:bg-slate-50 transition-colors">
+                        <td className="py-3.5 px-4 font-bold text-slate-900">
                           #{o.order_number}
                         </td>
-                        <td className="py-3.5 px-4 text-[#8e8e99]">
+                        <td className="py-3.5 px-4 text-slate-500">
                           {new Date(o.created_at).toLocaleDateString()}
                         </td>
                         <td className="py-3.5 px-4">
-                          <div className="font-bold text-white">
+                          <div className="font-bold text-slate-900 font-sans">
                             {o.shipping_address.name}
                           </div>
-                          <div className="text-[11px] text-[#71717a] font-sans">
+                          <div className="text-[11px] text-slate-500 font-sans">
                             {o.shipping_address.city}, {o.shipping_address.country}
                           </div>
                         </td>
-                        <td className="py-3.5 px-4 text-[#cbd5e1] font-sans">
+                        <td className="py-3.5 px-4 text-slate-700 font-sans">
                           {o.items?.map((item) => (
                             <div key={item.id} className="text-[11px]">
                               {item.quantity}× {item.product_name} ({item.size})
                             </div>
                           ))}
                         </td>
-                        <td className="py-3.5 px-4 font-bold text-white">
+                        <td className="py-3.5 px-4 font-bold text-[#ff5500]">
                           {formatPrice(o.total)}
                         </td>
                         <td className="py-3.5 px-4">
@@ -685,14 +689,14 @@ export default function AdminDashboardPage() {
                                   e.target.value as OrderStatus
                                 )
                               }
-                              className="h-8 text-[11px] font-mono font-semibold"
+                              className="h-8 text-[11px] font-medium"
                             >
-                              <option value="pending">pending</option>
-                              <option value="confirmed">confirmed</option>
-                              <option value="processing">processing</option>
-                              <option value="shipped">shipped</option>
-                              <option value="delivered">delivered</option>
-                              <option value="cancelled">cancelled</option>
+                              <option value="pending">Pending</option>
+                              <option value="confirmed">Confirmed</option>
+                              <option value="processing">Processing</option>
+                              <option value="shipped">Shipped</option>
+                              <option value="delivered">Delivered</option>
+                              <option value="cancelled">Cancelled</option>
                             </Select>
                           </div>
                         </td>
@@ -708,19 +712,19 @@ export default function AdminDashboardPage() {
         {activeTab === "inventory" && (
           <div className="space-y-6">
             {/* Threshold config bar */}
-            <div className="p-4 bg-[#111116] border border-[#202028] rounded-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="p-5 bg-white border border-slate-200/80 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
               <div>
-                <h4 className="font-display uppercase text-xs font-bold text-white">
-                  Configurable Stock Threshold
+                <h4 className="font-display uppercase text-xs font-bold text-slate-900">
+                  Stock Alert Threshold
                 </h4>
-                <p className="text-[11px] text-[#8e8e99] font-mono">
+                <p className="text-[11px] text-slate-500">
                   Variants with inventory at or below threshold will be flagged.
                 </p>
               </div>
 
               <div className="flex items-center gap-3">
-                <span className="text-xs text-[#a1a1aa] font-mono">
-                  Flag if stock &le;
+                <span className="text-xs text-slate-600 font-medium">
+                  Alert if stock &le;
                 </span>
                 <input
                   type="number"
@@ -728,36 +732,36 @@ export default function AdminDashboardPage() {
                   max={20}
                   value={lowStockThreshold}
                   onChange={(e) => setLowStockThreshold(Number(e.target.value))}
-                  className="w-16 h-9 bg-[#17171e] border border-[#272730] rounded-xs text-center text-xs font-mono font-bold text-white"
+                  className="w-16 h-9 bg-slate-50 border border-slate-200 rounded-xl text-center text-xs font-bold text-slate-900 focus:outline-none focus:border-[#ff5500]"
                 />
-                <span className="text-xs text-[#a1a1aa] font-mono">units</span>
+                <span className="text-xs text-slate-600 font-medium">units</span>
               </div>
             </div>
 
             {/* Variants Stock Table */}
-            <div className="overflow-x-auto border border-[#202028] rounded-xs bg-[#0e0e12]">
+            <div className="overflow-x-auto border border-slate-200/80 rounded-2xl bg-white shadow-sm">
               <table className="w-full text-left text-xs font-sans">
-                <thead className="bg-[#141418] border-b border-[#202028] text-[#8e8e99] font-display uppercase tracking-wider">
+                <thead className="bg-slate-50 border-b border-slate-200 text-slate-600 font-display uppercase tracking-wider">
                   <tr>
-                    <th className="py-3 px-4">SKU Code</th>
+                    <th className="py-3 px-4">SKU</th>
                     <th className="py-3 px-4">Garment</th>
                     <th className="py-3 px-4">Color</th>
                     <th className="py-3 px-4">Size</th>
-                    <th className="py-3 px-4">Inventory Units</th>
-                    <th className="py-3 px-4">Condition</th>
-                    <th className="py-3 px-4 text-right">Adjust Stock</th>
+                    <th className="py-3 px-4">Stock</th>
+                    <th className="py-3 px-4">Status</th>
+                    <th className="py-3 px-4 text-right">Action</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#1e1e24] font-mono">
+                <tbody className="divide-y divide-slate-100 font-mono">
                   {allVariants.map((v) => (
-                    <tr key={v.id} className="hover:bg-white/5 transition-colors">
-                      <td className="py-3 px-4 font-bold text-white">{v.sku}</td>
-                      <td className="py-3 px-4 font-display uppercase text-[#cbd5e1]">
+                    <tr key={v.id} className="hover:bg-slate-50 transition-colors">
+                      <td className="py-3 px-4 font-bold text-slate-900">{v.sku}</td>
+                      <td className="py-3 px-4 font-display uppercase text-slate-700">
                         {v.productName}
                       </td>
-                      <td className="py-3 px-4 text-[#8e8e99]">{v.color}</td>
-                      <td className="py-3 px-4 font-bold text-white">{v.size}</td>
-                      <td className="py-3 px-4 font-bold text-white">
+                      <td className="py-3 px-4 text-slate-500 font-sans">{v.color}</td>
+                      <td className="py-3 px-4 font-bold text-slate-900">{v.size}</td>
+                      <td className="py-3 px-4 font-bold text-slate-900">
                         {v.stock}
                       </td>
                       <td className="py-3 px-4">
@@ -768,7 +772,7 @@ export default function AdminDashboardPage() {
                             LOW STOCK ({v.stock})
                           </Badge>
                         ) : (
-                          <span className="text-emerald-400 text-xs">Healthy</span>
+                          <span className="text-emerald-600 font-semibold text-xs">Healthy</span>
                         )}
                       </td>
                       <td className="py-3 px-4 text-right">
@@ -783,9 +787,9 @@ export default function AdminDashboardPage() {
                             });
                             setNewStockVal(v.stock);
                           }}
-                          className="px-2.5 py-1 bg-[#1a1a22] hover:bg-white hover:text-black border border-[#2e2e38] text-[11px] font-display uppercase rounded-xs transition-colors cursor-pointer"
+                          className="px-3 py-1 bg-slate-100 hover:bg-[#ff5500] hover:text-white border border-slate-200 text-[11px] font-semibold rounded-lg transition-colors cursor-pointer"
                         >
-                          Edit Units
+                          Edit Stock
                         </button>
                       </td>
                     </tr>
@@ -800,56 +804,56 @@ export default function AdminDashboardPage() {
         {activeTab === "customers" && (
           <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="p-6 bg-[#0e0e12] border border-[#202028] rounded-xs space-y-4">
+              <div className="p-6 sm:p-8 bg-white border border-slate-200/80 rounded-3xl space-y-4 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-[#71717a]">
+                  <span className="font-mono text-xs text-slate-400">
                     ID: user-demo-customer
                   </span>
-                  <Badge variant="metallic">VIP ATELIER</Badge>
+                  <Badge variant="accent">VIP MEMBER</Badge>
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-white">
+                  <h3 className="font-display text-lg font-bold text-slate-900">
                     Marcus Sterling
                   </h3>
-                  <div className="text-xs text-[#8e8e99] font-mono mt-0.5">
+                  <div className="text-xs text-slate-500 font-mono mt-0.5">
                     customer@ay2fly.com · +1 (555) 234-8901
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-[#1c1c24] font-mono">
+                <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-slate-100 font-mono">
                   <div>
-                    <span className="text-[#71717a] block">Orders Placed</span>
-                    <strong className="text-white">2 Completed</strong>
+                    <span className="text-slate-400 block">Orders Placed</span>
+                    <strong className="text-slate-900">2 Completed</strong>
                   </div>
                   <div>
-                    <span className="text-[#71717a] block">Lifetime Value</span>
-                    <strong className="text-white">$664.20</strong>
+                    <span className="text-slate-400 block">Lifetime Value</span>
+                    <strong className="text-[#ff5500]">$664.20</strong>
                   </div>
                 </div>
               </div>
 
-              <div className="p-6 bg-[#0e0e12] border border-[#202028] rounded-xs space-y-4">
+              <div className="p-6 sm:p-8 bg-white border border-slate-200/80 rounded-3xl space-y-4 shadow-sm">
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs text-[#71717a]">
+                  <span className="font-mono text-xs text-slate-400">
                     ID: user-demo-admin
                   </span>
-                  <Badge variant="new">DIRECTOR</Badge>
+                  <Badge variant="emerald">ADMINISTRATOR</Badge>
                 </div>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-white">
+                  <h3 className="font-display text-lg font-bold text-slate-900">
                     Ayodele Director
                   </h3>
-                  <div className="text-xs text-[#8e8e99] font-mono mt-0.5">
+                  <div className="text-xs text-slate-500 font-mono mt-0.5">
                     admin@ay2fly.com · +44 20 7946 0912
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-[#1c1c24] font-mono">
+                <div className="grid grid-cols-2 gap-2 text-xs pt-2 border-t border-slate-100 font-mono">
                   <div>
-                    <span className="text-[#71717a] block">Access Level</span>
-                    <strong className="text-white">Global Admin</strong>
+                    <span className="text-slate-400 block">Role</span>
+                    <strong className="text-slate-900">Store Administrator</strong>
                   </div>
                   <div>
-                    <span className="text-[#71717a] block">HQ Hub</span>
-                    <strong className="text-white">London Atelier</strong>
+                    <span className="text-slate-400 block">HQ</span>
+                    <strong className="text-slate-900">Lagos / London</strong>
                   </div>
                 </div>
               </div>
@@ -859,23 +863,23 @@ export default function AdminDashboardPage() {
 
         {/* Edit Variant Stock Modal */}
         {editingVariant && (
-          <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="w-full max-w-sm bg-[#0e0e12] border border-[#272732] rounded-xs p-6 space-y-5 shadow-2xl">
+          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="w-full max-w-sm bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-5 shadow-2xl">
               <div className="space-y-1">
-                <div className="font-mono text-[10px] text-[#71717a] uppercase">
+                <div className="font-mono text-[10px] text-slate-400 uppercase">
                   {editingVariant.sku}
                 </div>
-                <h4 className="font-display text-base font-bold uppercase text-white">
-                  Adjust Inventory
+                <h4 className="font-display text-base font-bold uppercase text-slate-900">
+                  Update Inventory
                 </h4>
-                <p className="text-xs text-[#8e8e99]">
+                <p className="text-xs text-slate-500">
                   {editingVariant.productName}
                 </p>
               </div>
 
               <div>
-                <label className="block text-xs uppercase font-display text-[#d1d5db] mb-1.5">
-                  Available Warehouse Units
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+                  Available Warehouse Stock
                 </label>
                 <Input
                   type="number"
@@ -885,15 +889,15 @@ export default function AdminDashboardPage() {
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-2 border-t border-[#202028]">
+              <div className="flex justify-end gap-2 pt-2 border-t border-slate-100">
                 <Button
-                  variant="ghost"
+                  variant="secondary"
                   size="sm"
                   onClick={() => setEditingVariant(null)}
                 >
                   Cancel
                 </Button>
-                <Button variant="primary" size="sm" onClick={handleSaveStock}>
+                <Button variant="accent" size="sm" onClick={handleSaveStock}>
                   Save Stock
                 </Button>
               </div>
@@ -903,15 +907,15 @@ export default function AdminDashboardPage() {
 
         {/* Create Product Modal */}
         {isCreateProductOpen && (
-          <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-sm flex items-center justify-center p-4">
-            <div className="w-full max-w-lg bg-[#0e0e12] border border-[#272732] rounded-xs p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-              <div className="flex items-center justify-between border-b border-[#202028] pb-3">
-                <h4 className="font-display text-base font-bold uppercase text-white">
+          <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+            <div className="w-full max-w-lg bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h4 className="font-display text-base font-bold uppercase text-slate-900">
                   Create New Garment
                 </h4>
                 <button
                   onClick={() => setIsCreateProductOpen(false)}
-                  className="text-[#71717a] hover:text-white"
+                  className="text-slate-400 hover:text-slate-700 text-lg leading-none cursor-pointer"
                 >
                   ✕
                 </button>
@@ -919,12 +923,12 @@ export default function AdminDashboardPage() {
 
               <form onSubmit={handleCreateProduct} className="space-y-4">
                 <div>
-                  <label className="block text-xs uppercase font-display text-[#d1d5db] mb-1">
-                    Garment Name
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Garment Name *
                   </label>
                   <Input
                     required
-                    placeholder="e.g. Heavy Overdyed Boxy Hoodie"
+                    placeholder="e.g. Heavy Orange Boxy Hoodie"
                     value={newProdName}
                     onChange={(e) => setNewProdName(e.target.value)}
                   />
@@ -932,7 +936,7 @@ export default function AdminDashboardPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase font-display text-[#d1d5db] mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       Department
                     </label>
                     <Select
@@ -947,7 +951,7 @@ export default function AdminDashboardPage() {
                     </Select>
                   </div>
                   <div>
-                    <label className="block text-xs uppercase font-display text-[#d1d5db] mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       Base Retail Price ($)
                     </label>
                     <Input
@@ -961,7 +965,7 @@ export default function AdminDashboardPage() {
 
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs uppercase font-display text-[#d1d5db] mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       Silhouette Cut
                     </label>
                     <Select
@@ -976,7 +980,7 @@ export default function AdminDashboardPage() {
                     </Select>
                   </div>
                   <div>
-                    <label className="block text-xs uppercase font-display text-[#d1d5db] mb-1">
+                    <label className="block text-xs font-semibold text-slate-700 mb-1">
                       Fabric Composition
                     </label>
                     <Input
@@ -988,29 +992,29 @@ export default function AdminDashboardPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs uppercase font-display text-[#d1d5db] mb-1">
-                    Editorial Description
+                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                    Garment Description
                   </label>
                   <textarea
                     rows={3}
-                    className="w-full bg-[#111115] border border-[#272730] rounded-xs p-3 text-xs text-white focus:outline-none focus:border-white"
-                    placeholder="Enter garment details and design specifications..."
+                    className="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-xs text-slate-900 focus:outline-none focus:border-[#ff5500]"
+                    placeholder="Enter garment details and fit description..."
                     value={newProdDesc}
                     onChange={(e) => setNewProdDesc(e.target.value)}
                   />
                 </div>
 
-                <div className="flex justify-end gap-3 pt-4 border-t border-[#202028]">
+                <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="secondary"
                     size="sm"
                     onClick={() => setIsCreateProductOpen(false)}
                   >
                     Cancel
                   </Button>
-                  <Button type="submit" variant="primary" size="sm">
-                    Deploy Garment
+                  <Button type="submit" variant="accent" size="sm">
+                    Publish Garment
                   </Button>
                 </div>
               </form>

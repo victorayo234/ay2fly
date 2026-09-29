@@ -53,24 +53,25 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
           <button
             key={img.id || idx}
             onClick={() => setSelectedIndex(idx)}
-            className={`relative h-20 w-16 sm:h-24 sm:w-20 rounded-xs overflow-hidden border transition-all cursor-pointer bg-[#141418] shrink-0 ${
+            className={`relative h-20 w-16 sm:h-24 sm:w-20 rounded-2xl overflow-hidden border transition-all cursor-pointer bg-slate-100 shrink-0 ${
               selectedIndex === idx
-                ? "border-white ring-1 ring-white"
-                : "border-[#272730] opacity-60 hover:opacity-100"
+                ? "border-[#ff5500] ring-2 ring-[#ff5500]/30 shadow-xs scale-102"
+                : "border-slate-200 opacity-70 hover:opacity-100"
             }`}
+            aria-label={`View photo ${idx + 1} of ${productName}`}
           >
             <Image
               src={img.image_url}
-              alt={img.alt_text || `${productName} view ${idx + 1}`}
+              alt={img.alt_text || `${productName} preview ${idx + 1}`}
               fill
-              className="object-cover object-center"
+              className="object-cover"
             />
           </button>
         ))}
       </div>
 
-      {/* Main Image Stage */}
-      <div className="relative flex-1 aspect-[3/4] sm:aspect-[4/5] bg-[#121216] rounded-xs overflow-hidden border border-[#202028] group">
+      {/* Main Image Display */}
+      <div className="relative aspect-[3/4] w-full bg-slate-100 rounded-3xl overflow-hidden border border-slate-200/90 shadow-sm group">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentImage.id || selectedIndex}
@@ -78,7 +79,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="relative h-full w-full cursor-zoom-in"
+            className="relative w-full h-full cursor-zoom-in"
             onClick={() => setIsZoomOpen(true)}
           >
             <Image
@@ -87,137 +88,89 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
               fill
               priority
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-center"
+              className="object-cover object-top"
             />
           </motion.div>
         </AnimatePresence>
 
-        {/* Zoom Cue */}
-        <button
-          onClick={() => setIsZoomOpen(true)}
-          className="absolute top-4 right-4 p-2 rounded-full bg-black/60 hover:bg-black/90 text-white backdrop-blur-xs transition-opacity opacity-0 group-hover:opacity-100 cursor-pointer"
-          aria-label="Open fullscreen image zoom"
-        >
-          <ZoomIn className="h-4 w-4" />
-        </button>
+        {/* Brand Logo Watermark on Main Gallery Image */}
+        <div className="absolute top-4 left-4 flex items-center gap-1.5 px-3 py-1 bg-white/90 backdrop-blur-md rounded-full shadow-xs border border-slate-200/60 z-10 pointer-events-none">
+          <div className="relative h-3.5 w-3.5">
+            <Image
+              src="/images/logo.png"
+              alt="ay2fly"
+              fill
+              className="object-contain"
+            />
+          </div>
+          <span className="font-display text-[10px] font-black uppercase text-slate-900 tracking-wider">
+            ay2fly original
+          </span>
+        </div>
 
-        {/* Carousel Arrow Buttons */}
+        {/* Image index counter */}
+        <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-mono font-bold text-slate-700 shadow-xs border border-slate-200/60 pointer-events-none">
+          {selectedIndex + 1} / {displayImages.length}
+        </div>
+
+        {/* Navigation Arrows on Hover */}
         {displayImages.length > 1 && (
-          <>
+          <div className="absolute inset-x-4 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity">
             <button
               onClick={handlePrev}
-              className="absolute left-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-black/90 text-white backdrop-blur-xs transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+              className="h-10 w-10 rounded-full bg-white/90 backdrop-blur-md text-slate-800 hover:text-[#ff5500] hover:bg-white flex items-center justify-center transition-all shadow-md pointer-events-auto active:scale-95 cursor-pointer"
               aria-label="Previous image"
             >
               <ChevronLeft className="h-5 w-5" />
             </button>
             <button
               onClick={handleNext}
-              className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-black/90 text-white backdrop-blur-xs transition-all opacity-0 group-hover:opacity-100 cursor-pointer"
+              className="h-10 w-10 rounded-full bg-white/90 backdrop-blur-md text-slate-800 hover:text-[#ff5500] hover:bg-white flex items-center justify-center transition-all shadow-md pointer-events-auto active:scale-95 cursor-pointer"
               aria-label="Next image"
             >
               <ChevronRight className="h-5 w-5" />
             </button>
-          </>
-        )}
-
-        {/* Position dots */}
-        {displayImages.length > 1 && (
-          <div className="absolute bottom-4 inset-x-0 flex items-center justify-center gap-1.5 z-10 pointer-events-none">
-            {displayImages.map((_, idx) => (
-              <span
-                key={idx}
-                className={`h-1.5 rounded-full transition-all ${
-                  selectedIndex === idx
-                    ? "w-6 bg-white"
-                    : "w-1.5 bg-white/40"
-                }`}
-              />
-            ))}
           </div>
         )}
+
+        {/* Zoom Trigger Button */}
+        <button
+          onClick={() => setIsZoomOpen(true)}
+          className="absolute top-4 right-4 h-9 w-9 rounded-full bg-white/90 backdrop-blur-md text-slate-700 hover:text-slate-950 hover:bg-white flex items-center justify-center shadow-xs transition-colors cursor-pointer"
+          aria-label="Enlarge image"
+        >
+          <ZoomIn className="h-4 w-4" />
+        </button>
       </div>
 
-      {/* Fullscreen Zoom Lightbox Modal */}
+      {/* Fullscreen Zoom Modal */}
       <AnimatePresence>
         {isZoomOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/95 flex flex-col justify-between p-4 sm:p-8"
             onClick={() => setIsZoomOpen(false)}
+            className="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-lg flex items-center justify-center p-4 sm:p-8 cursor-zoom-out"
           >
-            {/* Header */}
-            <div className="flex items-center justify-between text-white z-10">
-              <span className="font-display uppercase tracking-widest text-xs font-semibold">
-                {productName} — View {selectedIndex + 1} of {displayImages.length}
-              </span>
-              <button
-                onClick={() => setIsZoomOpen(false)}
-                className="p-2 text-[#71717a] hover:text-white transition-colors"
-                aria-label="Close zoom viewer"
-              >
-                <X className="h-6 w-6" />
-              </button>
-            </div>
+            <button
+              onClick={() => setIsZoomOpen(false)}
+              className="absolute top-6 right-6 p-2 rounded-full bg-white/20 hover:bg-white text-white hover:text-black transition-colors z-50 cursor-pointer"
+              aria-label="Close zoom"
+            >
+              <X className="h-6 w-6" />
+            </button>
 
-            {/* Large Image Stage */}
             <div
-              className="relative flex-1 max-h-[85vh] w-full flex items-center justify-center"
+              className="relative w-full max-w-4xl h-[85vh] rounded-3xl overflow-hidden shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="relative h-full w-full max-w-4xl">
-                <Image
-                  src={currentImage.image_url}
-                  alt={currentImage.alt_text || productName}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-
-              {/* Prev / Next controls */}
-              {displayImages.length > 1 && (
-                <>
-                  <button
-                    onClick={handlePrev}
-                    className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-white transition-colors"
-                    aria-label="Previous image"
-                  >
-                    <ChevronLeft className="h-6 w-6" />
-                  </button>
-                  <button
-                    onClick={handleNext}
-                    className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 p-3 rounded-full bg-neutral-900/80 hover:bg-neutral-800 text-white transition-colors"
-                    aria-label="Next image"
-                  >
-                    <ChevronRight className="h-6 w-6" />
-                  </button>
-                </>
-              )}
-            </div>
-
-            {/* Bottom thumbnail strip */}
-            <div className="flex justify-center gap-2 overflow-x-auto py-2 z-10">
-              {displayImages.map((img, idx) => (
-                <button
-                  key={idx}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedIndex(idx);
-                  }}
-                  className={`relative h-14 w-12 rounded-xs overflow-hidden border transition-all ${
-                    selectedIndex === idx ? "border-white" : "border-[#3f3f46] opacity-50"
-                  }`}
-                >
-                  <Image
-                    src={img.image_url}
-                    alt=""
-                    fill
-                    className="object-cover"
-                  />
-                </button>
-              ))}
+              <Image
+                src={currentImage.image_url}
+                alt={productName}
+                fill
+                className="object-contain"
+              />
             </div>
           </motion.div>
         )}

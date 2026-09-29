@@ -5,100 +5,104 @@ import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Compass, Scissors, Layers, CheckCircle } from "lucide-react";
+import { ArrowRight, Sparkles, Layers, Scissors, Heart } from "lucide-react";
 
 export const metadata = {
-  title: "Atelier & Sourcing | ay2fly",
+  title: "About Us | ay2fly Streetwear",
   description:
-    "Explore the architectural design philosophy, heavyweight yarn sourcing, and Japanese selvedge denim behind ay2fly.",
+    "Born in Lagos, built for the world. Learn about ay2fly's commitment to heavyweight cotton, selvedge denim, and effortless streetwear silhouettes.",
 };
 
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f6]">
+    <div className="min-h-screen bg-[#fafaf9] text-slate-900 flex flex-col justify-between">
       <Navbar />
 
-      <main className="pt-32 pb-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+      <main className="pt-32 pb-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16 w-full">
         {/* Header */}
         <div className="space-y-4 text-center max-w-2xl mx-auto">
-          <Badge variant="metallic">ATELIER ARCHIVES</Badge>
-          <h1 className="font-display text-4xl sm:text-6xl font-extrabold uppercase tracking-tight text-white">
-            THE ANATOMY OF <br />
-            <span className="metallic-text">AY2FLY</span>
+          <Badge variant="accent">OUR STORY</Badge>
+          <h1 className="font-display text-4xl sm:text-6xl font-extrabold uppercase tracking-tight text-slate-900">
+            Lagos Energy. <br />
+            <span className="text-[#ff5500]">Global Streetwear.</span>
           </h1>
-          <p className="text-sm sm:text-base text-[#9ca3af] leading-relaxed">
-            Founded with a singular commitment: eliminate superfluous graphics, focus purely on garment structure, silhouette drape, and unyielding fabric durability.
+          <p className="text-base text-slate-600 leading-relaxed">
+            ay2fly was founded with one clear ambition: create vibrant, heavyweight streetwear that feels incredible to wear, looks bold from every angle, and lasts for years.
           </p>
         </div>
 
-        {/* Hero Image */}
-        <div className="relative aspect-[16/9] w-full rounded-xs overflow-hidden border border-[#272732] shadow-2xl">
+        {/* Hero Visual */}
+        <div className="relative aspect-[16/9] w-full rounded-3xl overflow-hidden border border-slate-200 shadow-xl">
           <Image
             src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?auto=format&fit=crop&w=1600&q=85"
-            alt="ay2fly pattern cutting atelier"
+            alt="ay2fly garment design and craft"
             fill
             priority
             className="object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
-          <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs font-mono uppercase text-[#cbd5e1]">
-            <span>PATTERN LAB · LONDON</span>
-            <span>EDITION 2026</span>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+          <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs font-mono uppercase text-white font-bold tracking-wider">
+            <span>LAGOS · LONDON · WORLDWIDE</span>
+            <span>DROP 01 EDITION</span>
           </div>
         </div>
 
-        {/* The 3 Core Tenets */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="p-6 bg-[#0f0f13] border border-[#202028] rounded-xs space-y-4">
-            <div className="h-10 w-10 bg-[#16161d] rounded-xs flex items-center justify-center text-white border border-[#272730]">
-              <Layers className="h-5 w-5" />
+        {/* The 3 Core Pillars */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="p-8 bg-white border border-slate-200/80 rounded-3xl space-y-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="h-12 w-12 bg-orange-50 rounded-2xl flex items-center justify-center text-[#ff5500] border border-orange-200">
+              <Layers className="h-6 w-6" />
             </div>
-            <h3 className="font-display text-base font-bold uppercase text-white tracking-wide">
-              Heavy Gauge Knits
+            <h3 className="font-display text-lg font-bold uppercase text-slate-900 tracking-wide">
+              Heavyweight Cotton
             </h3>
-            <p className="text-xs text-[#8e8e99] leading-relaxed">
-              We exclusively spin combed organic cotton into 450 GSM to 520 GSM loopback French terry. The resulting fabric holds an architectural shape that never clings or wrinkles.
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              We spin premium combed cotton into 450 to 520 GSM loopback French terry. The result is a substantial hoodie and sweatpant that never clings, wrinkles, or loses its shape.
             </p>
           </div>
 
-          <div className="p-6 bg-[#0f0f13] border border-[#202028] rounded-xs space-y-4">
-            <div className="h-10 w-10 bg-[#16161d] rounded-xs flex items-center justify-center text-white border border-[#272730]">
-              <Scissors className="h-5 w-5" />
+          <div className="p-8 bg-white border border-slate-200/80 rounded-3xl space-y-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="h-12 w-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 border border-blue-200">
+              <Scissors className="h-6 w-6" />
             </div>
-            <h3 className="font-display text-base font-bold uppercase text-white tracking-wide">
-              Kurabo Raw Selvedge
+            <h3 className="font-display text-lg font-bold uppercase text-slate-900 tracking-wide">
+              Authentic Selvedge Denim
             </h3>
-            <p className="text-xs text-[#8e8e99] leading-relaxed">
-              Woven on vintage shuttle looms in Okayama, Japan. 14.5 oz unwashed indigo denim that develops bespoke fades, whiskering, and honeycomb creases unique to the wearer.
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Crafted on vintage shuttle looms from 14.5 oz unwashed indigo denim. Built to withstand daily city life while developing genuine personalized fades over time.
             </p>
           </div>
 
-          <div className="p-6 bg-[#0f0f13] border border-[#202028] rounded-xs space-y-4">
-            <div className="h-10 w-10 bg-[#16161d] rounded-xs flex items-center justify-center text-white border border-[#272730]">
-              <Compass className="h-5 w-5" />
+          <div className="p-8 bg-white border border-slate-200/80 rounded-3xl space-y-4 shadow-sm hover:shadow-md transition-shadow">
+            <div className="h-12 w-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 border border-emerald-200">
+              <Heart className="h-6 w-6" />
             </div>
-            <h3 className="font-display text-base font-bold uppercase text-white tracking-wide">
-              Anatomical Ergonomics
+            <h3 className="font-display text-lg font-bold uppercase text-slate-900 tracking-wide">
+              Everyday Confidence
             </h3>
-            <p className="text-xs text-[#8e8e99] leading-relaxed">
-              Engineered with dropped shoulder seams, pitched sleeves, and curved hems calibrated to balance modern oversized streetwear proportions without sacrificing posture.
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Dropped shoulders, relaxed armholes, and balanced proportions. Our cuts are designed to feel comfortable the moment you slip them on and give you instant confidence.
             </p>
           </div>
         </div>
 
-        {/* CTA */}
-        <div className="p-8 sm:p-12 bg-gradient-to-r from-[#141418] via-[#101014] to-[#141418] border border-white/20 rounded-xs text-center space-y-6">
-          <h2 className="font-display text-2xl sm:text-3xl font-extrabold uppercase text-white">
-            EXPERIENCE DROP 01
+        {/* Mission Statement Banner */}
+        <div className="p-8 sm:p-14 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-3xl text-center space-y-6 shadow-xl text-white relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff5500]/10 rounded-full blur-3xl pointer-events-none" />
+          <Badge variant="accent" className="bg-[#ff5500] text-white border-none">FRESH DROPS ONLY</Badge>
+          <h2 className="font-display text-2xl sm:text-4xl font-extrabold uppercase tracking-tight">
+            Ready to upgrade your streetwear rotation?
           </h2>
-          <p className="text-xs sm:text-sm text-[#9ca3af] max-w-lg mx-auto leading-relaxed">
-            Discover the initial release of raw essentials. Limited pieces available for immediate dispatch.
+          <p className="text-xs sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
+            Every garment in our catalog is produced in strictly limited runs. Once a colorway sells out, it rarely returns.
           </p>
-          <Link href="/shop">
-            <Button variant="primary" size="lg">
-              Explore The Shop <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
+          <div className="pt-2">
+            <Link href="/shop">
+              <Button variant="accent" size="lg" className="shadow-lg shadow-orange-500/25 active:scale-95">
+                Explore The Shop <ArrowRight className="h-4 w-4 ml-1" />
+              </Button>
+            </Link>
+          </div>
         </div>
       </main>
 

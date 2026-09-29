@@ -35,54 +35,54 @@ export default function WishlistPage() {
   }, [productIds]);
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f6]">
+    <div className="min-h-screen bg-[#fafaf9] text-slate-900 flex flex-col justify-between">
       <Navbar />
 
-      <main className="pt-32 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
+      <main className="pt-32 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 w-full">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-[#202028] pb-6 gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between border-b border-slate-200 pb-6 gap-4">
           <div>
-            <Badge variant="metallic">PERSONAL ARCHIVE</Badge>
-            <h1 className="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-white mt-2">
-              Saved Garments ({productIds.length})
+            <Badge variant="accent">SAVED ITEMS</Badge>
+            <h1 className="font-display text-3xl sm:text-4xl font-extrabold uppercase tracking-tight text-slate-900 mt-2">
+              My Wishlist ({productIds.length})
             </h1>
-            <p className="text-xs text-[#9ca3af] mt-1 font-mono">
-              Persisted across browsing sessions. In-stock availability monitored continuously.
+            <p className="text-xs sm:text-sm text-slate-500 mt-1">
+              Your saved streetwear garments. Instant stock status and quick add-to-bag.
             </p>
           </div>
 
           {products.length > 0 && (
             <button
               onClick={clearWishlist}
-              className="text-xs font-mono text-[#8e8e99] hover:text-red-400 flex items-center gap-1.5 transition-colors cursor-pointer"
+              className="text-xs font-medium text-slate-500 hover:text-red-500 flex items-center gap-1.5 transition-colors cursor-pointer"
             >
               <Trash2 className="h-3.5 w-3.5" />
-              Clear Entire Archive
+              Clear Wishlist
             </button>
           )}
         </div>
 
         {/* Content */}
         {loading ? (
-          <div className="h-64 flex items-center justify-center text-xs font-mono uppercase text-[#71717a]">
-            Loading personal archive...
+          <div className="h-64 flex items-center justify-center text-xs font-mono uppercase text-slate-400">
+            Loading your saved pieces...
           </div>
         ) : products.length === 0 ? (
-          <div className="text-center py-24 bg-[#0e0e12] border border-[#202028] rounded-xs space-y-4">
-            <div className="h-16 w-16 mx-auto rounded-full bg-[#16161c] border border-[#272730] flex items-center justify-center text-[#71717a]">
-              <Heart className="h-7 w-7 stroke-1" />
+          <div className="text-center py-24 bg-white border border-slate-200/80 rounded-3xl space-y-4 shadow-sm max-w-lg mx-auto">
+            <div className="h-18 w-18 mx-auto rounded-full bg-orange-50 border border-orange-200 flex items-center justify-center text-[#ff5500]">
+              <Heart className="h-8 w-8 stroke-2" />
             </div>
             <div>
-              <h3 className="font-display uppercase text-lg font-bold text-white tracking-wide">
-                Your archive is empty
+              <h3 className="font-display uppercase text-lg font-bold text-slate-900">
+                Your wishlist is empty
               </h3>
-              <p className="text-xs text-[#71717a] mt-1 max-w-sm mx-auto leading-relaxed">
-                Save garments while browsing the shop to track stock levels and build your seasonal rotation.
+              <p className="text-xs sm:text-sm text-slate-500 mt-1 max-w-sm mx-auto leading-relaxed">
+                Save pieces while browsing the catalog to keep track of limited drops and build your fit.
               </p>
             </div>
             <Link href="/shop" className="inline-block pt-2">
-              <Button variant="primary" size="md">
-                Browse Collection <ArrowRight className="h-4 w-4" />
+              <Button variant="accent" size="md" className="shadow-lg shadow-orange-500/20 active:scale-95">
+                Browse The Shop <ArrowRight className="h-4 w-4 ml-1" />
               </Button>
             </Link>
           </div>

@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight, Flame } from "lucide-react";
 import { Product } from "@/types/database";
 import { ProductCard } from "@/components/product/product-card";
 
@@ -23,13 +23,14 @@ export function TrendingCarousel({ products }: TrendingCarouselProps) {
   return (
     <section className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {/* Section Header */}
-      <div className="flex items-end justify-between mb-8 pb-4 border-b border-[#202026]">
+      <div className="flex items-end justify-between mb-8 pb-4 border-b border-slate-200">
         <div>
-          <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#8e8e99] block mb-1">
-            Curated Rotation
+          <span className="text-xs font-mono uppercase font-bold tracking-wider text-[#ff5500] flex items-center gap-1.5 mb-1">
+            <Flame className="h-3.5 w-3.5" />
+            POPULAR PIECES
           </span>
-          <h2 className="font-display text-2xl sm:text-3xl font-bold uppercase tracking-tight text-white">
-            Trending Streetwear
+          <h2 className="font-display text-3xl sm:text-4xl font-black uppercase tracking-tight text-slate-900">
+            Trending Right Now
           </h2>
         </div>
 
@@ -38,14 +39,14 @@ export function TrendingCarousel({ products }: TrendingCarouselProps) {
           <div className="flex items-center gap-1.5">
             <button
               onClick={() => scroll("left")}
-              className="h-9 w-9 rounded-xs border border-[#272730] bg-[#111115] hover:bg-[#1c1c22] hover:border-white/50 text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="h-10 w-10 rounded-full border border-slate-200 bg-white hover:bg-[#ff5500] hover:text-white text-slate-700 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
               aria-label="Scroll left"
             >
               <ChevronLeft className="h-4 w-4" />
             </button>
             <button
               onClick={() => scroll("right")}
-              className="h-9 w-9 rounded-xs border border-[#272730] bg-[#111115] hover:bg-[#1c1c22] hover:border-white/50 text-white flex items-center justify-center transition-colors cursor-pointer"
+              className="h-10 w-10 rounded-full border border-slate-200 bg-white hover:bg-[#ff5500] hover:text-white text-slate-700 flex items-center justify-center transition-all cursor-pointer shadow-xs active:scale-95"
               aria-label="Scroll right"
             >
               <ChevronRight className="h-4 w-4" />
@@ -53,7 +54,7 @@ export function TrendingCarousel({ products }: TrendingCarouselProps) {
           </div>
           <Link
             href="/shop"
-            className="hidden sm:inline-flex items-center gap-1 text-xs font-display uppercase tracking-widest text-[#cbd5e1] hover:text-white transition-colors ml-4"
+            className="hidden sm:inline-flex items-center gap-1 text-xs font-display font-bold uppercase tracking-wider text-slate-600 hover:text-[#ff5500] transition-colors ml-3"
           >
             View All <ArrowRight className="h-3.5 w-3.5" />
           </Link>
@@ -69,7 +70,7 @@ export function TrendingCarousel({ products }: TrendingCarouselProps) {
         {products.map((product) => (
           <div
             key={product.id}
-            className="min-w-[270px] sm:min-w-[310px] max-w-[310px] snap-start shrink-0"
+            className="min-w-[270px] sm:min-w-[300px] max-w-[300px] snap-start shrink-0"
           >
             <ProductCard product={product} />
           </div>

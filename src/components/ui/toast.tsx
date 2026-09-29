@@ -3,10 +3,10 @@
 import * as React from "react";
 import { create } from "zustand";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, AlertCircle, Info } from "lucide-react";
+import { X, CheckCircle2, AlertCircle, Info, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-export type ToastVariant = "default" | "success" | "error" | "metallic";
+export type ToastVariant = "default" | "success" | "error" | "metallic" | "accent";
 
 export interface ToastItem {
   id: string;
@@ -64,38 +64,40 @@ export function ToastContainer() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.15 } }}
             className={cn(
-              "pointer-events-auto relative flex items-start gap-3.5 p-4 rounded-xs border shadow-2xl backdrop-blur-xl",
+              "pointer-events-auto relative flex items-start gap-3.5 p-4 rounded-2xl border shadow-xl bg-white",
               item.variant === "success" &&
-                "bg-[#0e1713]/95 border-emerald-500/40 text-emerald-200 shadow-[0_4px_24px_rgba(16,185,129,0.15)]",
+                "border-emerald-300 shadow-emerald-500/10",
               item.variant === "error" &&
-                "bg-[#1c0e0e]/95 border-red-500/40 text-red-200 shadow-[0_4px_24px_rgba(239,68,68,0.15)]",
-              item.variant === "metallic" &&
-                "bg-[#141418]/95 border-white/30 text-white shadow-[0_4px_24px_rgba(255,255,255,0.12)]",
+                "border-red-300 shadow-red-500/10",
+              (item.variant === "metallic" || item.variant === "accent") &&
+                "border-orange-300 shadow-orange-500/10",
               (!item.variant || item.variant === "default") &&
-                "bg-[#111115]/95 border-[#2e2e38] text-[#f4f4f6]"
+                "border-slate-200 shadow-slate-900/10"
             )}
           >
             <div className="pt-0.5 shrink-0">
               {item.variant === "success" && (
-                <CheckCircle2 className="h-4 w-4 text-emerald-400" />
+                <CheckCircle2 className="h-5 w-5 text-emerald-600" />
               )}
               {item.variant === "error" && (
-                <AlertCircle className="h-4 w-4 text-red-400" />
+                <AlertCircle className="h-5 w-5 text-red-500" />
               )}
-              {item.variant === "metallic" && (
-                <div className="h-4 w-4 rounded-full bg-gradient-to-tr from-neutral-400 to-white" />
+              {(item.variant === "metallic" || item.variant === "accent") && (
+                <div className="h-5 w-5 rounded-full bg-[#ff5500] flex items-center justify-center text-white">
+                  <Sparkles className="h-3 w-3" />
+                </div>
               )}
               {(!item.variant || item.variant === "default") && (
-                <Info className="h-4 w-4 text-neutral-400" />
+                <Info className="h-5 w-5 text-slate-500" />
               )}
             </div>
 
             <div className="flex-1 pr-4">
-              <div className="font-display uppercase tracking-wider text-xs font-semibold text-white">
+              <div className="font-display uppercase tracking-wider text-xs font-bold text-slate-900">
                 {item.title}
               </div>
               {item.description && (
-                <p className="text-xs text-[#a1a1aa] mt-1 leading-relaxed">
+                <p className="text-xs text-slate-600 mt-0.5 leading-relaxed">
                   {item.description}
                 </p>
               )}
@@ -103,10 +105,10 @@ export function ToastContainer() {
 
             <button
               onClick={() => removeToast(item.id)}
-              className="absolute top-3.5 right-3 text-[#71717a] hover:text-white transition-colors cursor-pointer"
-              aria-label="Dismiss notification"
+              className="text-slate-400 hover:text-slate-700 transition-colors p-1 cursor-pointer"
+              aria-label="Close notification"
             >
-              <X className="h-4 w-4" />
+              <X className="h-3.5 w-3.5" />
             </button>
           </motion.div>
         ))}

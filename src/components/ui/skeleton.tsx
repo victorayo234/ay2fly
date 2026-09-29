@@ -8,7 +8,7 @@ export function Skeleton({
   return (
     <div
       className={cn(
-        "animate-pulse rounded-xs bg-[#1a1a22] border border-[#242430]/40",
+        "animate-pulse rounded-xl bg-slate-100 skeleton-shimmer border border-slate-200/50",
         className
       )}
       {...props}
@@ -18,12 +18,12 @@ export function Skeleton({
 
 export function ProductCardSkeleton() {
   return (
-    <div className="flex flex-col bg-[#101014] border border-[#202026] rounded-xs p-3 space-y-3">
-      <Skeleton className="aspect-[3/4] w-full" />
-      <div className="space-y-2 pt-2">
-        <Skeleton className="h-3 w-1/3" />
-        <Skeleton className="h-4 w-3/4" />
-        <Skeleton className="h-4 w-1/4" />
+    <div className="flex flex-col bg-white border border-slate-100 rounded-2xl p-3 space-y-3 shadow-xs">
+      <Skeleton className="aspect-[3/4] w-full rounded-xl" />
+      <div className="space-y-2 pt-2 px-1">
+        <Skeleton className="h-3 w-1/3 rounded-md" />
+        <Skeleton className="h-4 w-3/4 rounded-md" />
+        <Skeleton className="h-4 w-1/4 rounded-md" />
       </div>
     </div>
   );

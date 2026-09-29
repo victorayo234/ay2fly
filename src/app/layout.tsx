@@ -16,10 +16,10 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "ay2fly | Premium Gen-Z Streetwear & Essentials",
+  title: "ay2fly | Bold Gen-Z Streetwear & Everyday Drops",
   description:
-    "ay2fly is an architectural Gen-Z streetwear label. Oversized silhouettes, heavyweight raw denim, tactical layering, and contemporary footwear.",
-  keywords: ["streetwear", "oversized hoodie", "raw denim", "tactical vest", "minimal fashion", "ay2fly"],
+    "Lagos energy. Global streetwear craft. Discover vibrant hoodies, selvedge denim, heavyweight tees, and limited drops from ay2fly.",
+  keywords: ["streetwear", "oversized hoodie", "selvedge denim", "joggers", "graphic tees", "ay2fly", "lagos fashion"],
   icons: {
     icon: "/images/logo.png",
     apple: "/images/logo.png",
@@ -34,9 +34,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${syne.variable} ${manrope.variable} dark antialiased`}
+      className={`${syne.variable} ${manrope.variable} antialiased`}
     >
-      <body className="min-h-screen bg-[#09090b] text-[#f4f4f6] font-sans flex flex-col selection:bg-white selection:text-black">
+      <body className="min-h-screen bg-[#fafaf9] text-slate-900 font-sans flex flex-col selection:bg-[#ff5500] selection:text-white">
         <Providers>{children}</Providers>
       </body>
     </html>

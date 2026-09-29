@@ -10,33 +10,35 @@
   --color-border-hover: var(--border-hover);
   --color-muted: var(--muted);
   --color-muted-foreground: var(--muted-foreground);
-  --color-silver: var(--silver);
-  --color-silver-light: var(--silver-light);
-  --color-silver-dark: var(--silver-dark);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
-  --font-display: var(--font-display), "Syne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-sans: var(--font-sans), "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-display), "Outfit", "Syne", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: var(--font-sans), "Plus Jakarta Sans", "Manrope", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 :root {
-  /* Default dark aesthetic for ay2fly streetwear brand */
-  --background: #09090b;
-  --foreground: #f4f4f6;
-  --surface: #111114;
-  --surface-hover: #18181d;
-  --surface-elevated: #202026;
-  --border: #27272e;
-  --border-hover: #40404c;
-  --muted: #1c1c22;
-  --muted-foreground: #9ca3af;
-  --silver: #cbd5e1;
-  --silver-light: #f8fafc;
-  --silver-dark: #64748b;
-  --silver-metallic: #94a3b8;
-  --accent: #ffffff;
-  --accent-foreground: #09090b;
+  /* Bright, Bold, Human Streetwear Palette */
+  --background: #fafaf9;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --surface-hover: #f8fafc;
+  --surface-elevated: #ffffff;
+  --border: #e2e8f0;
+  --border-hover: #cbd5e1;
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  /* Vivid High-Energy Brand Colors */
+  --primary: #ff5500;
+  --primary-hover: #e04b00;
+  --primary-foreground: #ffffff;
+
+  --accent: #2563eb;
+  --accent-foreground: #ffffff;
   --danger: #ef4444;
   --danger-foreground: #ffffff;
   --success: #10b981;
@@ -50,7 +52,7 @@
 html {
   background-color: var(--background);
   color: var(--foreground);
-  color-scheme: dark;
+  color-scheme: light;
   scroll-behavior: smooth;
 }
 
@@ -62,106 +64,122 @@ body {
   min-height: 100vh;
 }
 
-/* Custom scrollbar */
+/* Custom modern scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #09090b;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #27272e;
-  border-radius: 3px;
+  background: #cbd5e1;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: #94a3b8;
 }
 
-/* Metallic gradient utility */
-.metallic-text {
-  background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 50%, #94a3b8 100%);
+/* Vibrant brand gradient text */
+.brand-gradient-text {
+  background: linear-gradient(135deg, #ff5500 0%, #ff8c00 50%, #2563eb 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.metallic-border {
-  border-image: linear-gradient(135deg, #ffffff 0%, #64748b 50%, #1e293b 100%) 1;
+.brand-gradient-bg {
+  background: linear-gradient(135deg, #ff5500 0%, #ff7700 100%);
 }
 
-.metallic-badge {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.7);
-  backdrop-filter: blur(12px);
+.graffiti-backdrop {
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(255, 85, 0, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(37, 99, 235, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.1) 0%, transparent 60%);
 }
 
-.glass-panel {
-  background: rgba(17, 17, 20, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.glass-panel-subtle {
-  background: rgba(17, 17, 20, 0.45);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* Lustrous finish & tactile sheens */
-.lustre-card {
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.04) 0%, rgba(18, 18, 23, 0.8) 40%, rgba(12, 12, 15, 0.95) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+/* Rounded, soft shadow surfaces */
+.soft-card {
+  background-color: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.lustre-card:hover {
-  border-color: rgba(255, 255, 255, 0.22);
-  box-shadow: 0 14px 40px -10px rgba(0, 0, 0, 0.9), 0 0 20px -5px rgba(255, 255, 255, 0.05);
+.soft-card:hover {
+  border-color: #e2e8f0;
+  box-shadow: 0 16px 32px -8px rgba(15, 23, 42, 0.09), 0 4px 12px -2px rgba(15, 23, 42, 0.04);
   transform: translateY(-2px);
 }
 
-.glow-silver {
-  box-shadow: 0 0 35px -5px rgba(255, 255, 255, 0.15);
+.soft-shadow-lg {
+  box-shadow: 0 20px 40px -10px rgba(15, 23, 42, 0.08), 0 8px 16px -4px rgba(15, 23, 42, 0.03);
 }
 
-.shimmer-badge {
+/* Nav Link Hover Underline Animation */
+.nav-link-hover {
   position: relative;
-  overflow: hidden;
+  display: inline-block;
 }
 
-.shimmer-badge::after {
+.nav-link-hover::after {
   content: "";
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #ff5500;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 9999px;
+}
+
+.nav-link-hover:hover::after {
+  transform: scaleX(1);
+}
+
+/* Skeleton loader shine effect */
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: #e2e8f0;
+}
+
+.skeleton-shimmer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: linear-gradient(
-    60deg,
-    transparent 40%,
-    rgba(255, 255, 255, 0.15) 50%,
-    transparent 60%
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
   );
-  transform: rotate(25deg);
-  animation: shimmer 6s infinite;
+  animation: shimmer-pulse 1.8s infinite;
 }
 
-@keyframes shimmer {
-  0% { transform: translateX(-100%) rotate(25deg); }
-  20% { transform: translateX(100%) rotate(25deg); }
-  100% { transform: translateX(100%) rotate(25deg); }
+@keyframes shimmer-pulse {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
-/* Focus styles for high accessibility */
+/* Accessible focus ring */
 :focus-visible {
-  outline: 2px solid #cbd5e1;
+  outline: 2px solid #ff5500;
   outline-offset: 2px;
 }
 
-/* Reduced motion preference */
+/* Button & Link active tactile feedback */
+.active-press:active {
+  transform: scale(0.97);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

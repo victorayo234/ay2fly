@@ -5,11 +5,12 @@ import { db } from "@/lib/db";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ArrowRight, Sparkles } from "lucide-react";
 
 export const metadata = {
-  title: "Collections & Releases | ay2fly",
-  description: "Browse the curated architectural capsules and seasonal releases from ay2fly.",
+  title: "Streetwear Collections & Drops | ay2fly",
+  description: "Explore curated seasonal drops, limited streetwear capsules, and signature fits from ay2fly.",
 };
 
 export const dynamic = "force-dynamic";
@@ -18,31 +19,31 @@ export default async function CollectionsPage() {
   const collections = await db.getCollections();
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f6]">
+    <div className="min-h-screen bg-[#fafaf9] text-slate-900 flex flex-col justify-between">
       <Navbar />
 
-      <main className="pt-32 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
+      <main className="pt-32 pb-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 w-full">
         {/* Header */}
-        <div className="border-b border-[#202028] pb-8 space-y-3">
-          <Badge variant="metallic">CAPSULE RELEASES</Badge>
-          <h1 className="font-display text-3xl sm:text-5xl font-black uppercase tracking-tight text-white">
-            ARCHITECTURAL CAPSULES
+        <div className="border-b border-slate-200 pb-8 space-y-3">
+          <Badge variant="accent">SEASONAL DROPS</Badge>
+          <h1 className="font-display text-3xl sm:text-5xl font-black uppercase tracking-tight text-slate-900">
+            Curated Collections
           </h1>
-          <p className="text-xs sm:text-sm text-[#9ca3af] max-w-2xl leading-relaxed">
-            Every collection is developed around a singular material hypothesis and aesthetic thesis.
+          <p className="text-xs sm:text-base text-slate-600 max-w-2xl leading-relaxed">
+            Every collection brings together heavyweight textiles, oversized cuts, and vivid color combinations designed to be worn together.
           </p>
         </div>
 
         {/* Collections Stack */}
-        <div className="space-y-12">
+        <div className="space-y-10">
           {collections.map((col, index) => (
             <div
               key={col.id}
-              className="group relative bg-[#0f0f13] border border-[#202028] hover:border-[#3a3a46] rounded-xs overflow-hidden transition-all duration-300"
+              className="group bg-white border border-slate-200/80 hover:border-slate-300 rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
             >
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-0">
                 {/* Visual Banner */}
-                <div className="lg:col-span-7 relative h-72 sm:h-96 lg:h-[450px] overflow-hidden bg-black">
+                <div className="lg:col-span-7 relative h-72 sm:h-96 lg:h-[420px] overflow-hidden bg-slate-100">
                   <Image
                     src={
                       col.banner_image ||
@@ -52,22 +53,22 @@ export default async function CollectionsPage() {
                     fill
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 lg:bg-gradient-to-r lg:from-transparent lg:to-[#0f0f13]" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent lg:hidden" />
                   <div className="absolute top-4 left-4">
-                    <Badge variant="new">CAPSULE 0{index + 1}</Badge>
+                    <Badge variant="accent" className="bg-[#ff5500] text-white">COLLECTION 0{index + 1}</Badge>
                   </div>
                 </div>
 
                 {/* Details & CTA */}
                 <div className="lg:col-span-5 p-8 lg:p-12 flex flex-col justify-between space-y-6">
                   <div className="space-y-4">
-                    <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#71717a]">
-                      RELEASE SERIES
+                    <span className="text-[11px] font-mono uppercase tracking-[0.2em] text-[#ff5500] font-bold">
+                      LIMITED RELEASE
                     </span>
-                    <h2 className="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-white">
+                    <h2 className="font-display text-2xl sm:text-3xl font-extrabold uppercase tracking-tight text-slate-900">
                       {col.name}
                     </h2>
-                    <p className="text-xs sm:text-sm text-[#9ca3af] leading-relaxed">
+                    <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       {col.description}
                     </p>
                   </div>
@@ -75,9 +76,11 @@ export default async function CollectionsPage() {
                   <div>
                     <Link
                       href={`/shop?collection=${col.slug}`}
-                      className="inline-flex items-center gap-2 px-6 py-3.5 bg-white text-black font-display uppercase tracking-widest text-xs font-bold rounded-xs hover:bg-neutral-200 transition-colors shadow-lg"
+                      className="inline-block"
                     >
-                      Shop This Capsule <ArrowRight className="h-4 w-4" />
+                      <Button variant="accent" size="lg" className="shadow-lg shadow-orange-500/20 active:scale-95">
+                        Shop Collection <ArrowRight className="h-4 w-4 ml-1" />
+                      </Button>
                     </Link>
                   </div>
                 </div>

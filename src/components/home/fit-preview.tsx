@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Sparkles, Check } from "lucide-react";
+import { ArrowRight, Sparkles, Check, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { formatPrice } from "@/lib/utils";
@@ -58,12 +58,12 @@ export function FitPreview() {
       productId: "prod-22",
       productName: "Distressed Ribbed Cashmere Beanie",
       productSlug: "distressed-ribbed-cashmere-beanie",
-      color: "Pitch Black",
+      color: "Charcoal Heather",
       size: "One Size",
       price: 65,
       image: "https://images.unsplash.com/photo-1576871337632-b9aef4c17ab9?auto=format&fit=crop&w=800&q=80",
-      stock: 35,
-      category: "Headwear",
+      stock: 20,
+      category: "Accessories",
     },
   ];
 
@@ -85,95 +85,58 @@ export function FitPreview() {
     });
 
     toast({
-      title: "FULL OUTFIT ADDED",
-      description: "All 4 coordinated pieces have been added to your bag.",
-      variant: "metallic",
+      title: "COMPLETE LOOK ADDED",
+      description: "All 4 coordinated outfit pieces added to your shopping bag.",
+      variant: "vibrant",
     });
 
     openCart();
   };
 
   return (
-    <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="bg-[#0e0e12] border border-[#202028] rounded-xs p-6 sm:p-10 lg:p-12">
-        <div className="flex flex-col lg:flex-row gap-12 items-center">
-          {/* Left Column: Full Editorial Fit Showcase */}
-          <div className="w-full lg:w-1/2 relative aspect-[3/4] sm:aspect-[4/5] rounded-xs overflow-hidden border border-[#272732] shadow-2xl bg-black">
+    <section className="py-20 sm:py-24 bg-[#f8fafc] border-y border-slate-200">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-12 shadow-sm flex flex-col lg:flex-row items-center gap-10 lg:gap-14">
+          {/* Left Column: Styled Editorial Visual */}
+          <div className="w-full lg:w-1/2 relative aspect-[3/4] rounded-3xl overflow-hidden shadow-lg border border-slate-200">
             <Image
-              src="https://images.unsplash.com/photo-1509967419530-da38b4704bc6?auto=format&fit=crop&w=1200&q=85"
-              alt="Complete the Fit editorial styling"
+              src="https://images.unsplash.com/photo-1516257984-b1b4d707412e?auto=format&fit=crop&w=1200&q=85"
+              alt="Complete Streetwear Look"
               fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover object-top"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-
-            <div className="absolute top-4 left-4">
-              <Badge variant="metallic">
-                <Sparkles className="h-3 w-3" />
-                LOOK 04 · MONOCHROME PROTOCOL
-              </Badge>
-            </div>
-
-            <div className="absolute bottom-6 inset-x-6">
-              <div className="text-[11px] font-mono uppercase tracking-widest text-[#9ca3af]">
-                MODEL SPECS: 186CM / 74KG · WEARING SIZE L / 32
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent" />
+            <div className="absolute bottom-6 left-6 right-6 text-white">
+              <div className="text-[10px] font-mono uppercase tracking-wider text-amber-300 font-bold">
+                Model: 6&apos;1&quot; (186cm) · Wearing Size L / 32
               </div>
-              <div className="font-display text-xl font-bold uppercase text-white mt-1">
-                The Complete Silhouette
+              <div className="font-display text-xl font-black uppercase text-white mt-1">
+                The Signature ay2fly Street Fit
               </div>
             </div>
           </div>
 
           {/* Right Column: Breakdown & Quick Bundle Action */}
-          <div className="w-full lg:w-1/2 space-y-8">
-            <div className="space-y-3">
-              <span className="text-[11px] font-mono uppercase tracking-[0.25em] text-[#8e8e99] block">
-                Signature Styling
-              </span>
-              <h2 className="font-display text-3xl sm:text-4xl font-bold uppercase tracking-tight text-white">
+          <div className="w-full lg:w-1/2 space-y-6">
+            <div className="space-y-2">
+              <Badge variant="vibrant">STYLE CURATION</Badge>
+              <h2 className="font-display text-3xl sm:text-4xl font-black uppercase tracking-tight text-slate-900">
                 Complete The Fit
               </h2>
-              <p className="text-xs sm:text-sm text-[#9ca3af] leading-relaxed">
-                Coordinated proportions tailored to stack seamlessly. Pair our heavyweight boxy hood with articulated ripstop cargos and brutalist lug boots.
+              <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
+                Coordinated pieces styled to drape seamlessly together. Pair our boxy hoodie with utility cargos and chiseled leather boots.
               </p>
             </div>
 
-            {/* Fit Selector Tabs */}
-            <div className="space-y-2">
-              <span className="text-[11px] font-mono uppercase tracking-wider text-[#71717a]">
-                Proportion Profile
-              </span>
-              <div className="flex gap-2">
-                {[
-                  { key: "oversized", label: "Oversized Drape" },
-                  { key: "relaxed", label: "Relaxed Utility" },
-                  { key: "boxy", label: "Boxy Cropped" },
-                ].map((fit) => (
-                  <button
-                    key={fit.key}
-                    onClick={() => setSelectedFit(fit.key as any)}
-                    className={`px-3.5 py-1.5 text-xs font-display uppercase tracking-wider rounded-xs border transition-all cursor-pointer ${
-                      selectedFit === fit.key
-                        ? "bg-white text-black border-white font-bold"
-                        : "bg-[#141418] text-[#9ca3af] border-[#272730] hover:border-white/40"
-                    }`}
-                  >
-                    {fit.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Pieces Breakdown */}
-            <div className="space-y-3 border-y border-[#202028] py-4">
+            {/* Pieces Breakdown List */}
+            <div className="space-y-2.5 border-y border-slate-100 py-4">
               {outfitItems.map((item) => (
                 <div
                   key={item.variantId}
-                  className="flex items-center justify-between py-1.5"
+                  className="flex items-center justify-between p-2.5 rounded-2xl hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="relative h-10 w-9 bg-[#17171c] rounded-xs overflow-hidden border border-[#272730] shrink-0">
+                    <div className="relative h-12 w-10 bg-slate-100 rounded-xl overflow-hidden border border-slate-200 shrink-0">
                       <Image
                         src={item.image}
                         alt={item.productName}
@@ -184,16 +147,16 @@ export function FitPreview() {
                     <div>
                       <Link
                         href={`/products/${item.productSlug}`}
-                        className="text-xs font-display uppercase font-semibold text-white hover:text-neutral-300 transition-colors line-clamp-1"
+                        className="text-xs font-display uppercase font-bold text-slate-900 hover:text-[#ff5500] transition-colors line-clamp-1"
                       >
                         {item.productName}
                       </Link>
-                      <div className="text-[11px] text-[#71717a] font-mono">
+                      <div className="text-[11px] text-slate-500 font-medium">
                         {item.color} · Size {item.size}
                       </div>
                     </div>
                   </div>
-                  <div className="font-mono text-xs font-semibold text-white">
+                  <div className="font-mono text-xs font-bold text-slate-900">
                     {formatPrice(item.price)}
                   </div>
                 </div>
@@ -201,12 +164,12 @@ export function FitPreview() {
             </div>
 
             {/* Pricing Summary & Bundle Button */}
-            <div className="space-y-4">
-              <div className="flex items-baseline justify-between">
-                <span className="text-xs font-display uppercase tracking-wider text-[#9ca3af]">
-                  Bundle Total (4 items)
+            <div className="space-y-4 pt-1">
+              <div className="flex items-baseline justify-between text-xs">
+                <span className="font-display uppercase tracking-wider font-bold text-slate-500">
+                  Full Bundle Price (4 Pieces)
                 </span>
-                <span className="font-mono text-xl font-bold text-white">
+                <span className="font-mono text-xl font-black text-slate-900">
                   {formatPrice(totalOutfitPrice)}
                 </span>
               </div>
@@ -215,15 +178,15 @@ export function FitPreview() {
                 <Button
                   variant="primary"
                   size="lg"
-                  className="flex-1"
+                  className="flex-1 rounded-2xl"
                   onClick={handleAddFullFit}
                 >
-                  <Check className="h-4 w-4" />
+                  <ShoppingBag className="h-4 w-4 mr-1" />
                   Add Complete Look to Bag
                 </Button>
                 <Link href="/shop" className="sm:w-auto">
-                  <Button variant="outline" size="lg" className="w-full">
-                    Explore Looks <ArrowRight className="h-4 w-4" />
+                  <Button variant="secondary" size="lg" className="w-full rounded-2xl">
+                    Explore Pieces <ArrowRight className="h-4 w-4 ml-1" />
                   </Button>
                 </Link>
               </div>

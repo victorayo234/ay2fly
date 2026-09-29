@@ -7,7 +7,6 @@ import { Product, Category, Collection } from "@/types/database";
 import { ProductCard } from "@/components/product/product-card";
 import { ShopFilters } from "@/components/shop/shop-filters";
 import { Select } from "@/components/ui/select";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 interface ShopContainerProps {
@@ -101,20 +100,20 @@ export function ShopContainer({
     return result;
   }, [
     initialProducts,
-    categories,
-    collections,
     category,
     collection,
     fit,
     size,
     color,
-    sort,
-    search,
     inStockOnly,
+    search,
+    sort,
+    categories,
+    collections,
   ]);
 
   const hasActiveFilters = Boolean(
-    category || collection || fit || size || color || search || inStockOnly
+    category || collection || fit || size || color || inStockOnly || search
   );
 
   const resetAllFilters = () => {
@@ -123,30 +122,32 @@ export function ShopContainer({
     setFit("");
     setSize("");
     setColor("");
-    setSearch("");
     setInStockOnly(false);
+    setSearch("");
   };
 
   const activeCategoryName = categories.find((c) => c.slug === category)?.name;
   const activeCollectionName = collections.find((c) => c.slug === collection)?.name;
 
   return (
-    <div className="space-y-8">
-      {/* Search & Sort Controls Bar */}
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-4 bg-[#0e0e12] border border-[#202028] rounded-xs">
-        {/* Search input in shop */}
+    <div className="space-y-6">
+      {/* Top Filter & Search Control Bar */}
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 pb-4 border-b border-slate-200">
+        {/* Search input in catalog */}
         <div className="relative flex-1 max-w-md">
-          <Input
-            placeholder="Search silhouettes, materials, drops..."
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+          <input
+            type="text"
+            placeholder="Search within streetwear catalog..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            icon={<Search className="h-4 w-4" />}
-            className="h-10 text-xs"
+            className="w-full h-11 pl-10 pr-9 bg-white border border-slate-200 rounded-2xl text-xs font-sans text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-[#ff5500] shadow-xs transition-colors"
           />
           {search && (
             <button
               onClick={() => setSearch("")}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-[#71717a] hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700"
+              aria-label="Clear search"
             >
               <X className="h-3.5 w-3.5" />
             </button>
@@ -158,25 +159,25 @@ export function ShopContainer({
           {/* Mobile Filter Toggle */}
           <button
             onClick={() => setIsMobileFiltersOpen(true)}
-            className="lg:hidden flex items-center gap-2 h-10 px-4 bg-[#16161d] border border-[#272730] hover:border-white/50 text-white rounded-xs text-xs font-display uppercase tracking-wider cursor-pointer"
+            className="lg:hidden flex items-center gap-2 h-11 px-4 bg-white border border-slate-200 hover:border-slate-300 text-slate-800 rounded-2xl text-xs font-display font-bold uppercase tracking-wider cursor-pointer shadow-xs active:scale-95"
           >
             <SlidersHorizontal className="h-3.5 w-3.5" />
             <span>Filters</span>
             {hasActiveFilters && (
-              <span className="h-2 w-2 rounded-full bg-white" />
+              <span className="h-2 w-2 rounded-full bg-[#ff5500]" />
             )}
           </button>
 
           {/* Sort Dropdown */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-mono uppercase text-[#71717a] hidden sm:inline-block">
+            <span className="text-xs font-mono font-bold uppercase text-slate-400 hidden sm:inline-block">
               Sort:
             </span>
-            <div className="w-40 sm:w-44">
+            <div className="w-44">
               <Select
                 value={sort}
                 onChange={(e) => setSort(e.target.value)}
-                className="h-10 text-xs font-display uppercase tracking-wider"
+                className="h-11 rounded-2xl text-xs font-display font-bold uppercase tracking-wider bg-white border-slate-200"
               >
                 <option value="featured">Featured</option>
                 <option value="newest">Newest Releases</option>
@@ -191,81 +192,81 @@ export function ShopContainer({
       {/* Active Filter Pills Bar */}
       {hasActiveFilters && (
         <div className="flex flex-wrap items-center gap-2 pt-1 pb-3">
-          <span className="text-xs font-mono uppercase text-[#71717a] mr-1">
+          <span className="text-xs font-mono uppercase font-bold text-slate-400 mr-1">
             Active:
           </span>
           {activeCategoryName && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-[#16161e] border border-[#272732] text-xs text-white">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-800 shadow-2xs">
               Dept: {activeCategoryName}
               <button
                 onClick={() => setCategory("")}
-                className="text-[#71717a] hover:text-white"
+                className="text-slate-400 hover:text-slate-700"
               >
                 <X className="h-3 w-3" />
               </button>
             </span>
           )}
           {activeCollectionName && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-[#16161e] border border-[#272732] text-xs text-white">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-800 shadow-2xs">
               Capsule: {activeCollectionName}
               <button
                 onClick={() => setCollection("")}
-                className="text-[#71717a] hover:text-white"
+                className="text-slate-400 hover:text-slate-700"
               >
                 <X className="h-3 w-3" />
               </button>
             </span>
           )}
           {fit && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-[#16161e] border border-[#272732] text-xs text-white">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-800 shadow-2xs">
               Fit: {fit}
               <button
                 onClick={() => setFit("")}
-                className="text-[#71717a] hover:text-white"
+                className="text-slate-400 hover:text-slate-700"
               >
                 <X className="h-3 w-3" />
               </button>
             </span>
           )}
           {size && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-[#16161e] border border-[#272732] text-xs text-white">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-800 shadow-2xs">
               Size: {size}
               <button
                 onClick={() => setSize("")}
-                className="text-[#71717a] hover:text-white"
+                className="text-slate-400 hover:text-slate-700"
               >
                 <X className="h-3 w-3" />
               </button>
             </span>
           )}
           {color && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-[#16161e] border border-[#272732] text-xs text-white">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-800 shadow-2xs">
               Color: {color}
               <button
                 onClick={() => setColor("")}
-                className="text-[#71717a] hover:text-white"
+                className="text-slate-400 hover:text-slate-700"
               >
                 <X className="h-3 w-3" />
               </button>
             </span>
           )}
           {inStockOnly && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-[#16161e] border border-[#272732] text-xs text-white">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-800 shadow-2xs">
               In Stock Only
               <button
                 onClick={() => setInStockOnly(false)}
-                className="text-[#71717a] hover:text-white"
+                className="text-slate-400 hover:text-slate-700"
               >
                 <X className="h-3 w-3" />
               </button>
             </span>
           )}
           {search && (
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xs bg-[#16161e] border border-[#272732] text-xs text-white">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-medium text-slate-800 shadow-2xs">
               Query: &ldquo;{search}&rdquo;
               <button
                 onClick={() => setSearch("")}
-                className="text-[#71717a] hover:text-white"
+                className="text-slate-400 hover:text-slate-700"
               >
                 <X className="h-3 w-3" />
               </button>
@@ -273,7 +274,7 @@ export function ShopContainer({
           )}
           <button
             onClick={resetAllFilters}
-            className="text-xs text-[#a1a1aa] hover:text-white underline ml-2 cursor-pointer font-mono"
+            className="text-xs text-[#ff5500] hover:underline ml-2 cursor-pointer font-bold"
           >
             Clear all
           </button>
@@ -281,7 +282,7 @@ export function ShopContainer({
       )}
 
       {/* Main Layout: Filters Sidebar + Grid */}
-      <div className="flex items-start">
+      <div className="flex items-start gap-8">
         {/* Filters Sidebar */}
         <ShopFilters
           categories={categories}
@@ -307,43 +308,42 @@ export function ShopContainer({
         {/* Product Grid Area */}
         <div className="flex-1 min-w-0">
           {/* Count bar */}
-          <div className="flex items-center justify-between text-xs text-[#8e8e99] font-mono uppercase tracking-wider mb-6 pb-2 border-b border-[#1c1c22]">
+          <div className="flex items-center justify-between text-xs text-slate-400 font-mono uppercase font-bold tracking-wider mb-6 pb-2 border-b border-slate-200">
             <span>
               Showing {filteredProducts.length} of {initialProducts.length}{" "}
-              Garments
+              Streetwear Pieces
             </span>
           </div>
 
           {filteredProducts.length === 0 ? (
             /* Empty state */
-            <div className="text-center py-24 px-4 bg-[#0e0e12] border border-[#202026] rounded-xs space-y-6">
-              <div className="h-16 w-16 mx-auto rounded-full bg-[#16161c] border border-[#272730] flex items-center justify-center text-[#71717a]">
-                <Filter className="h-7 w-7 stroke-1" />
+            <div className="text-center py-20 px-6 bg-white border border-slate-200 rounded-3xl space-y-5 shadow-xs">
+              <div className="h-16 w-16 mx-auto rounded-full bg-orange-50 text-[#ff5500] flex items-center justify-center">
+                <Filter className="h-7 w-7 stroke-2" />
               </div>
               <div className="space-y-2 max-w-md mx-auto">
-                <h3 className="font-display uppercase text-lg font-bold text-white tracking-wide">
-                  No matching garments found
+                <h3 className="font-display uppercase text-lg font-black text-slate-900 tracking-tight">
+                  No matching streetwear pieces found
                 </h3>
-                <p className="text-xs text-[#8e8e99] leading-relaxed">
-                  We couldn&apos;t find any pieces matching your current active
-                  filter configuration. Try clearing your filters or exploring our
-                  primary departments.
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  We couldn&apos;t find any garments matching your active filters. Try clearing some filters or browse our main departments.
                 </p>
               </div>
 
               <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
                 <Button
                   variant="primary"
-                  size="sm"
+                  size="md"
                   onClick={resetAllFilters}
-                  className="gap-2"
+                  className="gap-2 rounded-2xl"
                 >
                   <RotateCcw className="h-3.5 w-3.5" />
                   Reset All Filters
                 </Button>
                 <Button
                   variant="secondary"
-                  size="sm"
+                  size="md"
+                  className="rounded-2xl"
                   onClick={() => {
                     resetAllFilters();
                     setCategory("tops");
@@ -353,13 +353,14 @@ export function ShopContainer({
                 </Button>
                 <Button
                   variant="secondary"
-                  size="sm"
+                  size="md"
+                  className="rounded-2xl"
                   onClick={() => {
                     resetAllFilters();
-                    setCategory("denim");
+                    setCategory("bottoms");
                   }}
                 >
-                  Explore Denim
+                  Explore Bottoms
                 </Button>
               </div>
             </div>

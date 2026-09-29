@@ -48,10 +48,10 @@ export const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
       <label
         htmlFor={inputId}
         className={cn(
-          "relative flex items-start gap-3.5 p-3.5 rounded-xs border transition-all cursor-pointer select-none",
+          "relative flex items-start gap-3.5 p-4 rounded-2xl border transition-all cursor-pointer select-none",
           checked
-            ? "border-white bg-white/5 shadow-[0_0_15px_rgba(255,255,255,0.06)]"
-            : "border-[#272730] bg-[#111115] hover:border-[#3f3f4c] hover:bg-[#15151a]",
+            ? "border-[#ff5500] bg-orange-50/50 shadow-sm ring-1 ring-[#ff5500]"
+            : "border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50",
           disabled && "cursor-not-allowed opacity-50",
           className
         )}
@@ -71,21 +71,21 @@ export const RadioItem = React.forwardRef<HTMLInputElement, RadioItemProps>(
           />
           <div
             className={cn(
-              "h-4 w-4 rounded-full border border-[#3f3f4c] flex items-center justify-center transition-all",
-              checked && "border-white"
+              "h-4 w-4 rounded-full border flex items-center justify-center transition-all",
+              checked ? "border-[#ff5500]" : "border-slate-300"
             )}
           >
-            {checked && <div className="h-2 w-2 rounded-full bg-white" />}
+            {checked && <div className="h-2 w-2 rounded-full bg-[#ff5500]" />}
           </div>
         </div>
         <div className="flex-1">
           {label && (
-            <div className="text-xs font-semibold text-white tracking-wide">
+            <div className="text-xs font-semibold text-slate-900 tracking-wide">
               {label}
             </div>
           )}
           {description && (
-            <div className="text-[11px] text-[#9ca3af] mt-0.5 leading-relaxed">
+            <div className="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
               {description}
             </div>
           )}

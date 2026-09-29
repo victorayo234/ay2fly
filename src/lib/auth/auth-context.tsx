@@ -22,6 +22,8 @@ interface AuthContextType {
   signup: (fullName: string, email: string, password?: string) => Promise<{ success: boolean; error?: string }>;
   loginWithGoogle: () => Promise<{ success: boolean; error?: string }>;
   logout: () => Promise<void>;
+  resetPassword: (email: string) => Promise<{ success: boolean; error?: string }>;
+  updatePassword: (password: string) => Promise<{ success: boolean; error?: string }>;
   updateProfile: (data: Partial<UserSession>) => Promise<void>;
   addAddress: (address: ShippingAddress) => Promise<void>;
   removeAddress: (addressId: string) => Promise<void>;
@@ -237,6 +239,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  // Real Supabase Auth Reset Password Email Request
+  const resetPassword = async (email: string) => {
+    if (!email) return { success: false, error: "Email is required." };
+    try {
+      const origin = typeof window !== "undefined" ? window.location.origin : "";
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), {
+        redirectTo: `${origin}/reset-password`,
+      });
+      if (error) return { success: false, error: error.message };
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: err.message || "Failed to send reset email." };
+    }
+  };
+
+  // Real Supabase Auth Update Password
+  const updatePassword = async (password: string) => {
+    if (!password || password.length < 6) {
+      return { success: false, error: "Password must be at least 6 characters." };
+    }
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) return { success: false, error: error.message };
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, error: err.message || "Failed to update password." };
+    }
+  };
+
   // Update Profile in real Supabase Database
   const updateProfile = async (data: Partial<UserSession>) => {
     if (!user) return;
@@ -324,6 +355,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signup,
         loginWithGoogle,
         logout,
+        resetPassword,
+        updatePassword,
         updateProfile,
         addAddress,
         removeAddress,
